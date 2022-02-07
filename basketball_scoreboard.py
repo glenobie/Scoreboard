@@ -10,10 +10,12 @@ class BasketballScoreboard(TimedScoreboard):
         TimedScoreboard.__init__(self, window)
         self.state = BasketballGameState()
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 3)
+        self.createStaticBlits(self.staticBlitList)
 
-    def createSportSpecificStaticParts(self, blitList) :
-        x=0
+    def createStaticBlits(self, blitList) :
+        TimedScoreboard.createStaticBlits(self, blitList)
+       
+    def createDynamicBlits(self, blitList) :
+        TimedScoreboard.createDynamicBlits(self, blitList)
 
-    def createSportSpecificSDynamicParts(self, blitList) :
-        TimedScoreboard.createSportSpecificSDynamicParts(self, blitList)
 

@@ -1,8 +1,9 @@
 import os
 import pygame
 import pygame.freetype
-from layout import HockeyLayout, Layout
+from layout import HockeyLayout, Layout, LayoutWithClock
 from scoreState import GameState
+from scoreState import TimedGameState
 from numericSurface import NumericSurface
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -25,7 +26,7 @@ class Fonts:
 class Scoreboard():
 
     def __init__(self, window):
-        
+       
         self.window = window
         self.layout = HockeyLayout(self.window)
 
@@ -47,14 +48,16 @@ class Scoreboard():
         self.blitList = []
         self.staticBlitList = []
 
-        self.staticBlitList.append( self.layout.getColonBlit( self.fontClock.render(":", Colors.CLOCK)[0]) )
+       
+    def createStaticBlits(self, blitList) :
 
-        self.staticBlitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
-        self.staticBlitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
+        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
+        blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
 
-        self.createSportSpecificStaticParts(self.staticBlitList)
+    def createDynamicBlits(self, blitList) :
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getHomeScore()), Layout.SCORE_HEIGHT)) 
+        blitList.append( self.layout.getRightSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getGuestScore()), Layout.SCORE_HEIGHT)) 
 
- 
     def processInput(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,16 +84,19 @@ class Scoreboard():
         self.blitList.clear()
    
 
+
     def render(self):
         self.window.fill((0,0,0))
         
         self.window.blits(self.staticBlitList)
-        
-        self.createDynamicClockBlits(self.blitList)
-        self.createSportSpecificSDynamicParts(self.blitList)        
+
+        self.createDynamicBlits(self.blitList)
+              
 
         self.window.blits(self.blitList)
         pygame.display.update()    
+
+
 
     def run(self):
         self.running = True 
@@ -103,15 +109,17 @@ class Scoreboard():
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
         Scoreboard.__init__(self, window)    
+        # self.state = TimedGameState()
+        
+   
+    def createStaticBlits(self, blitList) :
+        Scoreboard.createStaticBlits(self, blitList)
+        
+        blitList.append( self.layout.getColonBlit( self.fontClock.render(":", Colors.CLOCK)[0]) )
+        blitList.append( self.layout.getCentererdBlit(self.fontText.render(self.state.getTimeDivisionName(), Colors.TEXT)[0], LayoutWithClock.PERIOD_HEIGHT) )
 
-    def createSportSpecificSDynamicParts(self, blitList) :
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getHomeScore()), Layout.SCORE_HEIGHT)) 
-        blitList.append( self.layout.getRightSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getGuestScore()), Layout.SCORE_HEIGHT)) 
-
-    def createSportSpecificStaticParts(self, blitList) :
-        blitList.append( self.layout.get)
-
-    def createDynamicClockBlits(self, blitList) :
+    def createDynamicBlits(self, blitList) :
+        Scoreboard.createDynamicBlits(self, blitList)
         blitList.append( self.layout.getMinutesBlit(self.minutesText.getValueAsSurface(self.state.getSeconds() // 60))) 
         blitList.append( self.layout.getSecondsBlit(self.secondsText.getValueAsSurface(self.state.getSeconds() % 60))) 
     

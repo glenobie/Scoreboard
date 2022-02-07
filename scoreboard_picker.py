@@ -75,7 +75,7 @@ class ScoreboardPicker :
 
             
             self.scoreboards = [ ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", HockeyScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
                                 ]

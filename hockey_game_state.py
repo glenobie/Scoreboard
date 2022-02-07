@@ -17,6 +17,7 @@ class HockeyGameState(TimedGameState) :
         
         self.seconds = self.MAX_SECONDS
         self.maxPeriods = 3
+        self.timeDivisionName = "Period"
   
     def modifyTime(self, doIncrement=False) :
         TimedGameState.modifyTime(self, doIncrement)

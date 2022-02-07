@@ -1,8 +1,6 @@
 
 class Layout :
 
-    CLOCK_MINUTE_HEIGHT     = 20
-    CLOCK_COLON_HEIGHT      = 40
     SPACING_HORIZONTAL      = 10
     HOME_GUEST_HEIGHT       = 20
     SCORE_HEIGHT            = 80
@@ -11,30 +9,11 @@ class Layout :
         self.window = window
         self.windowWidth = window.get_size()[0]
         self.windowThirds = (0, self.windowWidth / 3, self.windowWidth * 2 / 3)
-        self.windowHeight = window.get_size()[1]
-        self.minuteX = 0
-        self.secondX = 0
-        self.colonX = 0
-
-    def getColonBlit(self, surface) :
-        self.colonX = self.getHorizontalCenter(surface)
-        self.colonWidth = surface.get_size()[0]
-        return (surface , (self.colonX, Layout.CLOCK_COLON_HEIGHT) )
+        self.windowHeight = window.get_size()[1]   
 
     def getHorizontalCenter(self, surfaceObject) :
         return (self.windowWidth - surfaceObject.get_size()[0]) / 2
-        
-    def getMinutesBlit(self, surface) :
-        if (self.minuteX == 0) :
-            self.minuteX = self.colonX - surface.get_size()[0] - Layout.SPACING_HORIZONTAL
-        return (surface, (self.minuteX, Layout.CLOCK_MINUTE_HEIGHT))
-        
-    def getSecondsBlit(self, surface) :
-        if (self.secondX == 0) :
-            self.secondX = self.colonX + self.colonWidth + Layout.SPACING_HORIZONTAL
-            self.secondWidth = surface.get_size()[0]
-        return (surface, (self.secondX, Layout.CLOCK_MINUTE_HEIGHT))
-        
+                
     def getLeftSideCenteredBlit(self, surface, height) :
         x = (self.windowThirds[1] - surface.get_size()[0] ) / 2
         return (surface, (x, height))
@@ -45,9 +24,43 @@ class Layout :
         x += (space - surface.get_size()[0]) / 2
         return (surface, (x, height))
 
+    def getCentererdBlit(self, surface, height) :
+        x = self.getHorizontalCenter(surface)
+        return (surface, (x, height))
 
 
-class HockeyLayout(Layout) :  
+class LayoutWithClock(Layout) :
+
+    CLOCK_TIME_HEIGHT    = 20
+    CLOCK_COLON_HEIGHT   = 40
+    PERIOD_HEIGHT        = 200
+    PERIOD_VALUE_HEIGHT  = 280
+
+
+    def __init__(self, window) :
+        Layout.__init__(self, window)
+        self.minuteX = 0
+        self.secondX = 0
+        self.colonX = 0
+        
+    def getColonBlit(self, surface) :
+        self.colonX = self.getHorizontalCenter(surface)
+        self.colonWidth = surface.get_size()[0]
+        return (surface , (self.colonX, LayoutWithClock.CLOCK_COLON_HEIGHT) )
+
+    def getMinutesBlit(self, surface) :
+        if (self.minuteX == 0) :
+            self.minuteX = self.colonX - surface.get_size()[0] - Layout.SPACING_HORIZONTAL
+        return (surface, (self.minuteX, LayoutWithClock.CLOCK_TIME_HEIGHT))
+        
+    def getSecondsBlit(self, surface) :
+        if (self.secondX == 0) :
+            self.secondX = self.colonX + self.colonWidth + Layout.SPACING_HORIZONTAL
+            self.secondWidth = surface.get_size()[0]
+        return (surface, (self.secondX, LayoutWithClock.CLOCK_TIME_HEIGHT))
+
+
+class HockeyLayout(LayoutWithClock) :  
 
     PENALTY_1_HEIGHT = 180
     PENALTY_2_HEIGHT = 340
@@ -58,8 +71,6 @@ class HockeyLayout(Layout) :
     PENALTY_1_TIME_HEIGHT  = 240
     PENALTY_2_TIME_HEIGHT  = 400
 
-    PERIOD_TEXT          = (300,200)
-    PERIOD_VALUE_HEIGHT  = 190
 
     def getLeftPenaltyColonBlit(self, colon, height) :
         blit = self.getLeftSideCenteredBlit(colon, height) 

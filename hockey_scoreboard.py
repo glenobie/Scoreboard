@@ -1,4 +1,4 @@
-from layout import HockeyLayout, Layout
+from layout import HockeyLayout, Layout, LayoutWithClock
 from hockey_game_state import HockeyGameState
 from numericSurface import NumericSurface
 from scoreboard import TimedScoreboard
@@ -9,8 +9,12 @@ class HockeyScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
         self.state = HockeyGameState()
+        self.createStaticBlits(self.staticBlitList)
+        
+        
 
-    def createSportSpecificStaticParts(self, blitList) :
+    def createStaticBlits(self, blitList) :
+        TimedScoreboard.createStaticBlits(self, blitList)
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("PENALTY", Colors.TEXT)[0] , HockeyLayout.PENALTY_1_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("PENALTY", Colors.TEXT)[0] , HockeyLayout.PENALTY_1_HEIGHT) )
 
@@ -22,23 +26,21 @@ class HockeyScoreboard(TimedScoreboard):
         blitList.append( self.layout.getRightPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_1_COLON_HEIGHT) )
         blitList.append( self.layout.getRightPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_2_COLON_HEIGHT) )
  
-    
-        blitList.append( ( self.fontText.render("PERIOD:", Colors.TEXT)[0],    HockeyLayout.PERIOD_TEXT)  )
       
-    def createSportSpecificSDynamicParts(self, blitList) :
-            TimedScoreboard.createSportSpecificSDynamicParts(self, blitList)
+    def createDynamicBlits(self, blitList) :
+        TimedScoreboard.createDynamicBlits(self, blitList)
 
-            blitList.append( self.layout.getLeftPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 0) // 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
-            blitList.append( self.layout.getLeftPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 0) % 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
+        blitList.append( self.layout.getLeftPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 0) // 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
+        blitList.append( self.layout.getLeftPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 0) % 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
 
-            blitList.append( self.layout.getLeftPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 1) // 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
-            blitList.append( self.layout.getLeftPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 1) % 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
+        blitList.append( self.layout.getLeftPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 1) // 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
+        blitList.append( self.layout.getLeftPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.HOME_INDEX, 1) % 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
 
-            blitList.append( self.layout.getRightPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 0) // 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
-            blitList.append( self.layout.getRightPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 0) % 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
+        blitList.append( self.layout.getRightPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 0) // 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
+        blitList.append( self.layout.getRightPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 0) % 60), HockeyLayout.PENALTY_1_TIME_HEIGHT)) 
 
-            blitList.append( self.layout.getRightPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 1) // 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
-            blitList.append( self.layout.getRightPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 1) % 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
-        # self.period.writeToSurface(self.window, self.state.getPeriod(), HockeyLayout.PERIOD_VALUE)
+        blitList.append( self.layout.getRightPenaltyMinutesBlit(self.penaltyMinutes.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 1) // 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
+        blitList.append( self.layout.getRightPenaltySecondsBlit(self.penaltySeconds.getValueAsSurface(self.state.getPenaltySeconds(HockeyGameState.GUEST_INDEX, 1) % 60), HockeyLayout.PENALTY_2_TIME_HEIGHT)) 
+    # self.period.writeToSurface(self.window, self.state.getPeriod(), HockeyLayout.PERIOD_VALUE)
 
 

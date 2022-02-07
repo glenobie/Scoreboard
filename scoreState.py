@@ -22,16 +22,7 @@ class GameState :
     def modifyGuestScore(self, doDecrement=False) :
         self.modifyScore(GameState.GUEST_INDEX, doDecrement)
 
-    def modifyTime(self, doIncrement=False):
-        if doIncrement :
-            self.seconds += self.TIME_INTERVAL
-            if self.seconds > self.MAX_SECONDS :
-                self.seconds = self.MAX_SECONDS
-        else :
-            self.seconds -= self.TIME_INTERVAL
-            if self.seconds < 0 :
-                self.seconds = 0
-
+   
 class TimedGameState(GameState):
     def __init__(self) : 
         GameState.__init__(self)
@@ -57,5 +48,15 @@ class TimedGameState(GameState):
 
     def getTimeDivisionName(self) :
         return self.timeDivisionName
+
+    def modifyTime(self, doIncrement=False):
+            if doIncrement :
+                self.seconds += self.TIME_INTERVAL
+                if self.seconds > self.MAX_SECONDS :
+                    self.seconds = self.MAX_SECONDS
+            else :
+                self.seconds -= self.TIME_INTERVAL
+                if self.seconds < 0 :
+                    self.seconds = 0
 
 
