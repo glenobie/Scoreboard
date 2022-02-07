@@ -1,9 +1,12 @@
 import os
+import socket
 import pygame
 import pygame.freetype
 from hockey_scoreboard import HockeyScoreboard
 from basketball_scoreboard import BasketballScoreboard
 from football_scoreboard import FootballScoreboard
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 class ScoreboardOption :
 
@@ -70,7 +73,11 @@ class ScoreboardPicker :
 
     def __init__(self):
             pygame.init()
-            self.window = pygame.display.set_mode((800,480))
+            self.flags = 0
+            if socket.gethostname() == "scoreboard":
+                self.flags = pygame.FULLSCREEN
+            self.window = pygame.display.set_mode((800,480), self.flags)
+            
             pygame.display.set_caption("SCOREBOARD")
 
             
@@ -78,14 +85,14 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
-                                ]
+                               ]
 
             self.scoreboardIndex = 0
             self.scoreboards[self.scoreboardIndex].isSelected(True)
             
             
     def update(self) :
-        x=0
+        x=1
 
     def processInput(self) :
         for event in pygame.event.get():
