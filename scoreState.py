@@ -38,6 +38,7 @@ class TimedGameState(GameState):
         self.period = 1
         self.maxPeriods = 4  
         self.seconds = 0
+        self.timeDivisionName = "Quarter"
 
     def getSeconds(self):
         return self.seconds
@@ -54,5 +55,7 @@ class TimedGameState(GameState):
     def modifyPeriod(self) :
         self.period = self.period % self.maxPeriods + 1
 
+    def getTimeDivisionName(self) :
+        return self.timeDivisionName
 
 
