@@ -35,8 +35,7 @@ class NumericSurface () :
             x += self.maxDigitWidth - (self.font.get_metrics(digit)[0][1] - self.font.get_metrics(digit)[0][0])
             surface.blit(self.font.render(digit, self.color)[0], (x, 0)  )
             x += self.spacing + (self.font.get_metrics(digit)[0][1] - self.font.get_metrics(digit)[0][0])
-            
-        
+                    
         return surface
 
     def getSurfaceSize(self) :

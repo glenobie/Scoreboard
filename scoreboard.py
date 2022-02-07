@@ -1,11 +1,9 @@
-import os
+
 import pygame
 import pygame.freetype
 from layout import HockeyLayout, Layout, LayoutWithClock
 from scoreState import GameState
 from numericSurface import NumericSurface
-
-
 
 class Colors() :
     CLOCK = (255,255,0,200)  # yellow
@@ -21,7 +19,7 @@ class Fonts:
     SCORE_SIZE   = 100
     PENALTY_CLOCK_SIZE = 80
 
-
+#######################
 class Scoreboard():
 
     def __init__(self, window):
@@ -46,9 +44,7 @@ class Scoreboard():
 
         self.blitList = []
         self.staticBlitList = []
-        
-
-       
+             
     def createStaticBlits(self, blitList) :
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
@@ -75,13 +71,10 @@ class Scoreboard():
         elif event.key == pygame.K_s: 
             if event.mod & pygame.KMOD_LSHIFT :                 
                 self.running = False
-           
-    
+               
     def update(self):
         self.blitList.clear()
-   
-
-
+  
     def render(self):
         self.window.fill((0,0,0))
         self.window.blits(self.staticBlitList)
@@ -96,7 +89,7 @@ class Scoreboard():
             self.update()
             self.render()
 
-
+###################
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
         Scoreboard.__init__(self, window)    
@@ -104,7 +97,7 @@ class TimedScoreboard(Scoreboard) :
    
     def processKeyPress(self, event) :            
         Scoreboard.processKeyPress(self, event)
-        if event.key == pygame.K_s: 
+        if event.key == pygame.K_s and not(event.mod): 
             self.state.modifyPeriod()
 
 
