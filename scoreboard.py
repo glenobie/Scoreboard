@@ -3,7 +3,6 @@ import pygame
 import pygame.freetype
 from layout import HockeyLayout, Layout, LayoutWithClock
 from scoreState import GameState
-from scoreState import TimedGameState
 from numericSurface import NumericSurface
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -50,7 +49,6 @@ class Scoreboard():
 
        
     def createStaticBlits(self, blitList) :
-
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
 
@@ -87,16 +85,10 @@ class Scoreboard():
 
     def render(self):
         self.window.fill((0,0,0))
-        
         self.window.blits(self.staticBlitList)
-
         self.createDynamicBlits(self.blitList)
-              
-
         self.window.blits(self.blitList)
         pygame.display.update()    
-
-
 
     def run(self):
         self.running = True 
@@ -108,9 +100,7 @@ class Scoreboard():
 
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
-        Scoreboard.__init__(self, window)    
-        # self.state = TimedGameState()
-        
+        Scoreboard.__init__(self, window)          
    
     def createStaticBlits(self, blitList) :
         Scoreboard.createStaticBlits(self, blitList)
