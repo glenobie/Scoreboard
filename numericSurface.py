@@ -29,8 +29,8 @@ class NumericSurface () :
         for i in range(0, self.leadingZeroes) :
             if (self.displayLeadingZeroes) :
                 surface.blit( self.font.render("0", self.color)[0], (x, 0)) 
-            else :
-                surface.blit(self.font.render(" ", self.color)[0], (x, 0))
+#            else :
+#                surface.blit(self.font.render(" ", self.color)[0], (x, 0))
             x += self.spacing + self.maxDigitWidth
 
         for digit in str(self.value) :

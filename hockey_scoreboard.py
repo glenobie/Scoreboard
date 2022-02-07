@@ -9,8 +9,8 @@ class HockeyScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
         self.state = HockeyGameState()
+        self.layout = HockeyLayout(window)
         self.createStaticBlits(self.staticBlitList)
-        
         
 
     def createStaticBlits(self, blitList) :

@@ -5,7 +5,7 @@ from layout import HockeyLayout, Layout, LayoutWithClock
 from scoreState import GameState
 from numericSurface import NumericSurface
 
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 class Colors() :
     CLOCK = (255,255,0,200)  # yellow
@@ -27,7 +27,7 @@ class Scoreboard():
     def __init__(self, window):
        
         self.window = window
-        self.layout = HockeyLayout(self.window)
+        self.layout = Layout(self.window)
 
         self.state = GameState()
 
@@ -37,7 +37,7 @@ class Scoreboard():
         
         self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 0, 2, True)
         self.secondsText = NumericSurface(self.fontClock, Colors.CLOCK, 0, 2, True)
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 2)
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 2, False)
         self.penaltyMinutes = NumericSurface(self.fontPenaltyClock, Colors.CLOCK, 0, 1, True)
         self.penaltySeconds = NumericSurface(self.fontPenaltyClock, Colors.CLOCK, 0, 2, True)
         self.period = NumericSurface(self.fontPenaltyClock, Colors.PERIOD, 0, 1, False, 0)
@@ -46,6 +46,7 @@ class Scoreboard():
 
         self.blitList = []
         self.staticBlitList = []
+        
 
        
     def createStaticBlits(self, blitList) :
@@ -100,7 +101,8 @@ class Scoreboard():
 
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
-        Scoreboard.__init__(self, window)          
+        Scoreboard.__init__(self, window)    
+        self.layout = LayoutWithClock(self.window)      
    
     def createStaticBlits(self, blitList) :
         Scoreboard.createStaticBlits(self, blitList)
