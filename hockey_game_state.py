@@ -41,17 +41,5 @@ class HockeyGameState(TimedGameState) :
         for i in range(len(self.teams)) :
             self.teams[i].modifyAllPenaltyClocks(interval)
 
-    def processSportSpecificKeys(self, event) :
-        if event.key == pygame.K_a:
-            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 0)
-        elif event.key == pygame.K_q:
-            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 1)
-        elif event.key == pygame.K_d:
-            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 0)
-        elif event.key == pygame.K_e:
-            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 1)
-        elif event.key == pygame.K_s: 
-            if not(event.mod & pygame.KMOD_LSHIFT) :                 
-                self.modifyPeriod()
 
     

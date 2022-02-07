@@ -63,21 +63,19 @@ class Scoreboard():
                 self.running = False
                 break
             elif event.type == pygame.KEYDOWN :
-                # if event.key == pygame.K_ESCAPE:    
-                #     self.running = False
-                #     break
-                    
-                if event.key == pygame.K_x:
-                     self.state.modifyTime(event.mod & pygame.KMOD_LSHIFT)
-                elif event.key == pygame.K_z:
-                    self.state.modifyHomeScore(event.mod & pygame.KMOD_LSHIFT)
-                elif event.key == pygame.K_c:
-                    self.state.modifyGuestScore(event.mod & pygame.KMOD_LSHIFT)
-                elif event.key == pygame.K_s: 
-                    if event.mod & pygame.KMOD_LSHIFT :                 
-                        self.running = False
-                else :
-                    self.state.processSportSpecificKeys(event)
+                self.processKeyPress(event)
+
+    def processKeyPress(self, event) :            
+        if event.key == pygame.K_x:
+            self.state.modifyTime(event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_z:
+            self.state.modifyHomeScore(event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_c:
+            self.state.modifyGuestScore(event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_s: 
+            if event.mod & pygame.KMOD_LSHIFT :                 
+                self.running = False
+           
     
     def update(self):
         self.blitList.clear()
@@ -104,14 +102,20 @@ class TimedScoreboard(Scoreboard) :
         Scoreboard.__init__(self, window)    
         self.layout = LayoutWithClock(self.window)      
    
+    def processKeyPress(self, event) :            
+        Scoreboard.processKeyPress(self, event)
+        if event.key == pygame.K_s: 
+            self.state.modifyPeriod()
+
+
     def createStaticBlits(self, blitList) :
         Scoreboard.createStaticBlits(self, blitList)
         
         blitList.append( self.layout.getColonBlit( self.fontClock.render(":", Colors.CLOCK)[0]) )
-        blitList.append( self.layout.getCentererdBlit(self.fontText.render(self.state.getTimeDivisionName(), Colors.TEXT)[0], LayoutWithClock.PERIOD_HEIGHT) )
+        blitList.append( self.layout.getCenteredBlit(self.fontText.render(self.state.getTimeDivisionName(), Colors.TEXT)[0], LayoutWithClock.PERIOD_HEIGHT) )
 
     def createDynamicBlits(self, blitList) :
         Scoreboard.createDynamicBlits(self, blitList)
         blitList.append( self.layout.getMinutesBlit(self.minutesText.getValueAsSurface(self.state.getSeconds() // 60))) 
         blitList.append( self.layout.getSecondsBlit(self.secondsText.getValueAsSurface(self.state.getSeconds() % 60))) 
-    
+        blitList.append( self.layout.getCenteredBlit(self.period.getValueAsSurface(self.state.getPeriod() ), LayoutWithClock.PERIOD_VALUE_HEIGHT ) )

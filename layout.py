@@ -24,7 +24,7 @@ class Layout :
         x += (space - surface.get_size()[0]) / 2
         return (surface, (x, height))
 
-    def getCentererdBlit(self, surface, height) :
+    def getCenteredBlit(self, surface, height) :
         x = self.getHorizontalCenter(surface)
         return (surface, (x, height))
 
@@ -33,8 +33,8 @@ class LayoutWithClock(Layout) :
 
     CLOCK_TIME_HEIGHT    = 20
     CLOCK_COLON_HEIGHT   = 40
-    PERIOD_HEIGHT        = 200
-    PERIOD_VALUE_HEIGHT  = 280
+    PERIOD_HEIGHT        = 160
+    PERIOD_VALUE_HEIGHT  = 220
 
 
     def __init__(self, window) :

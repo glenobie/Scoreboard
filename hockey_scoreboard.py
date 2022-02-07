@@ -1,3 +1,4 @@
+import pygame
 from layout import HockeyLayout, Layout, LayoutWithClock
 from hockey_game_state import HockeyGameState
 from numericSurface import NumericSurface
@@ -12,6 +13,21 @@ class HockeyScoreboard(TimedScoreboard):
         self.layout = HockeyLayout(window)
         self.createStaticBlits(self.staticBlitList)
         
+
+
+    def procesKeyPress(self, event) :
+        TimedScoreboard.processKeyPress(self, event)
+        if event.key == pygame.K_a:
+            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 0)
+        elif event.key == pygame.K_q:
+            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 1)
+        elif event.key == pygame.K_d:
+            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 0)
+        elif event.key == pygame.K_e:
+            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 1)
+        elif event.key == pygame.K_s: 
+            if not(event.mod) :                 
+                self.modifyPeriod()
 
     def createStaticBlits(self, blitList) :
         TimedScoreboard.createStaticBlits(self, blitList)
