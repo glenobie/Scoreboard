@@ -17,7 +17,7 @@ class Fonts:
     TIME_SIZE    = 120
     TEXT_SIZE    = 60
     SCORE_SIZE   = 100
-    PENALTY_CLOCK_SIZE = 80
+    SMALL_CLOCK_SIZE = 80
 
 #######################
 class Scoreboard():
@@ -29,22 +29,14 @@ class Scoreboard():
 
         self.state = GameState()
 
-        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.TIME_SIZE)
-        self.fontScore = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SCORE_SIZE)
-        self.fontPenaltyClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.PENALTY_CLOCK_SIZE)
         
-        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 0, 2, True)
-        self.secondsText = NumericSurface(self.fontClock, Colors.CLOCK, 0, 2, True)
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 2, False)
-        self.penaltyMinutes = NumericSurface(self.fontPenaltyClock, Colors.CLOCK, 0, 1, True)
-        self.penaltySeconds = NumericSurface(self.fontPenaltyClock, Colors.CLOCK, 0, 2, True)
-        self.period = NumericSurface(self.fontPenaltyClock, Colors.PERIOD, 0, 1, False, 0)
-
+        self.fontScore = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SCORE_SIZE)
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
         self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
 
         self.blitList = []
         self.staticBlitList = []
-             
+
     def createStaticBlits(self, blitList) :
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
@@ -92,8 +84,14 @@ class Scoreboard():
 ###################
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
-        Scoreboard.__init__(self, window)    
-        self.layout = LayoutWithClock(self.window)      
+        Scoreboard.__init__(self, window)   
+        self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALL_CLOCK_SIZE)
+        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.TIME_SIZE)
+        self.layout = LayoutWithClock(self.window) 
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 99)
+        self.secondsText = NumericSurface(self.fontClock, Colors.CLOCK, 99, True)     
+        self.period = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
+
    
     def processKeyPress(self, event) :            
         Scoreboard.processKeyPress(self, event)

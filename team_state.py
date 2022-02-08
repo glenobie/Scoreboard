@@ -1,6 +1,7 @@
 class TeamState :
-    def __init__(self, score) : 
+    def __init__(self, score, maxScore) : 
         self.score = score
+        self.maxScore = maxScore
 
     def getScore(self) :
         return self.score
@@ -11,11 +12,12 @@ class TeamState :
             self.score = 0
 
     def incrementScore(self) :
-        self.score += 1
+        if (self.score < self.maxScore) :
+            self.score += 1 
 
 class HockeyTeamState(TeamState):
-    def __init__(self, score) : 
-        TeamState.__init__(self, score)
+    def __init__(self, score, maxScore) : 
+        TeamState.__init__(self, score, maxScore)
         self.penaltyClocks = [ 0, 0 ] # two clocks, in seconds
 
     def setPenaltyClock(self, index, value) :

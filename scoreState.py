@@ -8,7 +8,9 @@ class GameState :
     GUEST_INDEX = 1
     
     def __init__(self) : 
-        self.teams = [TeamState(0), TeamState(0)]
+        
+        self.maxScore = 99
+        self.teams = [TeamState(0, self.getMaxScore()), TeamState(0, self.getMaxScore())]
 
     def modifyScore(self, index, doDecrement=False):
         if doDecrement :
@@ -21,6 +23,9 @@ class GameState :
 
     def modifyGuestScore(self, doDecrement=False) :
         self.modifyScore(GameState.GUEST_INDEX, doDecrement)
+
+    def getMaxScore(self) :
+        return self.maxScore
 
 ###########################   
 class TimedGameState(GameState):

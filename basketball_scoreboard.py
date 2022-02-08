@@ -8,8 +8,9 @@ from scoreboard import Fonts
 class BasketballScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
+
         self.state = BasketballGameState()
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 3)
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 199)
         self.createStaticBlits(self.staticBlitList)
 
     def createStaticBlits(self, blitList) :

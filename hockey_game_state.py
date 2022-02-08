@@ -8,9 +8,11 @@ class HockeyGameState(TimedGameState) :
     def __init__(self):
         #invoking the __init__ of the parent class 
         TimedGameState.__init__(self) 
-
-        self.teams = [ HockeyTeamState(0), HockeyTeamState(0) ]
+        self.maxScore = 19
         
+        self.teams = [ HockeyTeamState(0, self.getMaxScore()), HockeyTeamState(0, self.getMaxScore()) ]
+        
+
         self.TIME_INTERVAL = 20
         self.MINUTES_PER_PERIOD = 20
         self.MAX_SECONDS = self.MINUTES_PER_PERIOD * 60

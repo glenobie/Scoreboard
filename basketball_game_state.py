@@ -5,7 +5,7 @@ class BasketballGameState(TimedGameState) :
     def __init__(self):
         #invoking the __init__ of the parent class 
         TimedGameState.__init__(self) 
-        
+        self.maxScore = 199
         self.TIME_INTERVAL = 12
         self.MINUTES_PER_PERIOD = 12
         self.MAX_SECONDS = self.MINUTES_PER_PERIOD * 60

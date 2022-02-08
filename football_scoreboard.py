@@ -9,7 +9,7 @@ class FootballScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
         self.state = FootballGameState()
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 0, 2)
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.createStaticBlits(self.staticBlitList)
 
    

@@ -9,25 +9,26 @@ from scoreboard import Fonts
 class HockeyScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
+        self.penaltyMinutes = NumericSurface(self.fontSmallNumber, Colors.CLOCK, 9)
+        self.penaltySeconds = NumericSurface(self.fontSmallNumber, Colors.CLOCK, 99, True)
         self.state = HockeyGameState()
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, self.state.getMaxScore() )
+
         self.layout = HockeyLayout(window)
         self.createStaticBlits(self.staticBlitList)
         
 
 
-    def procesKeyPress(self, event) :
+    def processKeyPress(self, event) :
         TimedScoreboard.processKeyPress(self, event)
         if event.key == pygame.K_a:
-            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 0)
+            self.state.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 0)
         elif event.key == pygame.K_q:
-            self.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 1)
+            self.state.modifyPenaltyClock(HockeyGameState.HOME_INDEX, 1)
         elif event.key == pygame.K_d:
-            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 0)
+            self.state.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 0)
         elif event.key == pygame.K_e:
-            self.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 1)
-        elif event.key == pygame.K_s: 
-            if not(event.mod) :                 
-                self.modifyPeriod()
+            self.state.modifyPenaltyClock(HockeyGameState.GUEST_INDEX, 1)
 
     def createStaticBlits(self, blitList) :
         TimedScoreboard.createStaticBlits(self, blitList)
@@ -37,10 +38,10 @@ class HockeyScoreboard(TimedScoreboard):
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("PENALTY", Colors.TEXT)[0] , HockeyLayout.PENALTY_2_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("PENALTY", Colors.TEXT)[0] , HockeyLayout.PENALTY_2_HEIGHT) )
        
-        blitList.append( self.layout.getLeftPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_1_COLON_HEIGHT) )
-        blitList.append( self.layout.getLeftPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_2_COLON_HEIGHT) )
-        blitList.append( self.layout.getRightPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_1_COLON_HEIGHT) )
-        blitList.append( self.layout.getRightPenaltyColonBlit( self.fontPenaltyClock.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_2_COLON_HEIGHT) )
+        blitList.append( self.layout.getLeftPenaltyColonBlit( self.fontSmallNumber.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_1_COLON_HEIGHT) )
+        blitList.append( self.layout.getLeftPenaltyColonBlit( self.fontSmallNumber.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_2_COLON_HEIGHT) )
+        blitList.append( self.layout.getRightPenaltyColonBlit( self.fontSmallNumber.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_1_COLON_HEIGHT) )
+        blitList.append( self.layout.getRightPenaltyColonBlit( self.fontSmallNumber.render(":", Colors.CLOCK)[0] , HockeyLayout.PENALTY_2_COLON_HEIGHT) )
  
       
     def createDynamicBlits(self, blitList) :
