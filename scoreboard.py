@@ -95,7 +95,7 @@ class TimedScoreboard(Scoreboard) :
    
     def processKeyPress(self, event) :            
         Scoreboard.processKeyPress(self, event)
-        if event.key == pygame.K_s and not(event.mod): 
+        if event.key == pygame.K_s and not(event.mod & pygame.KMOD_LSHIFT): 
             self.state.modifyPeriod()
 
 
