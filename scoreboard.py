@@ -1,7 +1,7 @@
 
 import pygame
 import pygame.freetype
-from layout import HockeyLayout, Layout, LayoutWithClock
+from layout import Layout, LayoutWithClock
 from scoreState import GameState
 from numericSurface import NumericSurface
 
@@ -15,9 +15,10 @@ class Fonts:
     NUMERIC_FILE = "LC-bold.otf"
     TEXT_FILE    = "title-sb.ttf"
     TIME_SIZE    = 120
-    TEXT_SIZE    = 60
+    TEXT_SIZE    = 64
     SCORE_SIZE   = 100
     SMALL_CLOCK_SIZE = 80
+    SMALL_TEXT_SIZE = 50
 
 #######################
 class Scoreboard():
@@ -33,6 +34,7 @@ class Scoreboard():
         self.fontScore = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SCORE_SIZE)
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
         self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
+        self.fontSmallText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALL_TEXT_SIZE)
 
         self.blitList = []
         self.staticBlitList = []
@@ -95,7 +97,7 @@ class TimedScoreboard(Scoreboard) :
    
     def processKeyPress(self, event) :            
         Scoreboard.processKeyPress(self, event)
-        if event.key == pygame.K_s and not(event.mod): 
+        if event.key == pygame.K_s and not(event.mod & pygame.KMOD_LSHIFT): 
             self.state.modifyPeriod()
 
 

@@ -1,10 +1,13 @@
 from scoreState import TimedGameState
+from team_state import FootballTeamState
 
 class FootballGameState(TimedGameState) :
     
     def __init__(self):
         #invoking the __init__ of the parent class 
         TimedGameState.__init__(self) 
+        self.teams = [FootballTeamState(0, self.getMaxScore()), FootballTeamState(0, self.getMaxScore())]
+
         
         self.TIME_INTERVAL = 15
         self.MINUTES_PER_PERIOD = 15

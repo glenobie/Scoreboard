@@ -63,7 +63,7 @@ class ScoreboardOption :
         else :
             return self.title.get_size()[0]
 
-
+    
 class ScoreboardPicker :
 
     HOCKEY_DINGBAT = "l"
