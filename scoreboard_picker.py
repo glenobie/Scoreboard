@@ -63,7 +63,7 @@ class ScoreboardOption :
         else :
             return self.title.get_size()[0]
 
-    
+
 class ScoreboardPicker :
 
     HOCKEY_DINGBAT = "l"
@@ -96,22 +96,23 @@ class ScoreboardPicker :
 
     def processInput(self) :
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    break
-                elif event.type == pygame.KEYDOWN :
-                    #if event.key == pygame.K_ESCAPE:
-                    #    self.running = False
-                    #    break
-                    if event.key == pygame.K_d:
-                        self.scoreboards[self.scoreboardIndex].isSelected(False)
-                        self.scoreboardIndex = (self.scoreboardIndex + 1) % (len(self.scoreboards) ) 
-                        self.scoreboards[self.scoreboardIndex].isSelected(True)    
-                    elif event.key == pygame.K_a:
-                        self.scoreboards[self.scoreboardIndex].isSelected(False)
-                        self.scoreboardIndex = (self.scoreboardIndex - 1) % (len(self.scoreboards) ) 
-                        self.scoreboards[self.scoreboardIndex].isSelected(True)    
-                    elif event.key == pygame.K_s:
+            if event.type == pygame.QUIT:
+                self.running = False
+                break
+            elif event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_d:
+                    self.scoreboards[self.scoreboardIndex].isSelected(False)
+                    self.scoreboardIndex = (self.scoreboardIndex + 1) % (len(self.scoreboards) ) 
+                    self.scoreboards[self.scoreboardIndex].isSelected(True)    
+                elif event.key == pygame.K_a:
+                    self.scoreboards[self.scoreboardIndex].isSelected(False)
+                    self.scoreboardIndex = (self.scoreboardIndex - 1) % (len(self.scoreboards) ) 
+                    self.scoreboards[self.scoreboardIndex].isSelected(True)    
+                elif event.key == pygame.K_s:
+                    if (event.mod & pygame.KMOD_LSHIFT) :
+                        self.running = False
+                        break
+                    else :
                         self.scoreboards[self.scoreboardIndex].processSelection()
                     
     def render(self) :

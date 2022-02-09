@@ -1,5 +1,5 @@
 import pygame
-from team_state import TeamState
+from team_state import TeamState, TeamStateWithTimeouts
 
 
 class GameState :
@@ -31,10 +31,21 @@ class GameState :
 class TimedGameState(GameState):
     def __init__(self) : 
         GameState.__init__(self)
+        self.teams = [TeamStateWithTimeouts(0, self.getMaxScore(), 9), 
+                      TeamStateWithTimeouts(0, self.getMaxScore(), 9)]
         self.period = 1
         self.maxPeriods = 4  
         self.seconds = 0
         self.timeDivisionName = "Quarter"
+
+    def getTimeoutsTaken(self, team) :
+        return self.teams[team].getTimeoutsTaken()
+
+    def modifyTimeoutsTaken(self, team, doDecrement=False) :
+        if doDecrement :
+            self.teams[team].modifyTimeoutsTaken(-1)
+        else:
+            self.teams[team].modifyTimeoutsTaken(1)
 
     def getSeconds(self):
         return self.seconds

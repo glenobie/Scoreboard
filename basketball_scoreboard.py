@@ -1,10 +1,12 @@
 
+from telnetlib import GA
 from basketball_game_state import BasketballGameState
 from numericSurface import NumericSurface
 from scoreboard import TimedScoreboard
 from scoreboard import Colors
 from basketball_layout import BasketballLayout
 from scoreState import GameState
+import pygame
 
 class BasketballScoreboard(TimedScoreboard):
     def __init__(self, window):
@@ -32,5 +34,15 @@ class BasketballScoreboard(TimedScoreboard):
         blitList.append( self.layout.getRightSideCenteredBlit(self.teamFoulsSurface.getValueAsSurface(self.state.getTeamFouls(GameState.GUEST_INDEX) ), BasketballLayout.TEAM_FOULS_VALUE_HEIGHT ) )
         blitList.append( self.layout.getRightSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX) ), BasketballLayout.TIMEOUTS_VALUE_HEIGHT ) )
                         
+    def processKeyPress(self, event) :
+        TimedScoreboard.processKeyPress(self, event)
+        if event.key == pygame.K_a:
+            self.state.modifyTeamFouls(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_q:
+            self.state.modifyTimeoutsTaken(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_d:
+            self.state.modifyTeamFouls(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_e:
+            self.state.modifyTimeoutsTaken(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
 
 
