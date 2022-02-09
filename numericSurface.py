@@ -47,9 +47,7 @@ class NumericSurface () :
                 donePrintingLeadingZeroes = True
                 surface.blit(self.font.render(digit, self.color)[0], (xPos, 0)  )
             i += 1
-        
-                
-
+ 
     def getValueAsSurface(self, value) :
         surface = pygame.Surface((self.width, self.height))
        
@@ -62,6 +60,11 @@ class NumericSurface () :
                     
         return surface
 
+    
+     
+        
+
+        return combinedSurface
 
         
 

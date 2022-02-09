@@ -13,6 +13,11 @@ class FootballScoreboard(TimedScoreboard):
         self.state = FootballGameState()
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 15)
+        self.downSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
+        self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False)
+        self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False)
+
 
         self.layout = FootballLayout(window)
         self.createStaticBlits(self.staticBlitList)
@@ -20,28 +25,49 @@ class FootballScoreboard(TimedScoreboard):
    
     def createStaticBlits(self, blitList) :
         TimedScoreboard.createStaticBlits(self, blitList)
-        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("TIMEOUTS", Colors.TEXT)[0] , FootballLayout.TIMEOUTS_TITLE_HEIGHT) )
-        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("TIMEOUTS", Colors.TEXT)[0] , FootballLayout.TIMEOUTS_TITLE_HEIGHT) )
-
+     #   blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("TIMEOUTS", Colors.TEXT)[0] , FootballLayout.TIMEOUTS_TITLE_HEIGHT) )
+     #   blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("TIMEOUTS", Colors.TEXT)[0] , FootballLayout.TIMEOUTS_TITLE_HEIGHT) )
+ 
        
     def createDynamicBlits(self, blitList) :
         TimedScoreboard.createDynamicBlits(self, blitList)
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.HOME_INDEX) ), FootballLayout.TIMEOUTS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX) ), FootballLayout.TIMEOUTS_VALUE_HEIGHT ) )
+    #    blitList.append( self.layout.getLeftSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.HOME_INDEX) ), FootballLayout.TIMEOUTS_VALUE_HEIGHT ) )
+    #    blitList.append( self.layout.getRightSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX) ), FootballLayout.TIMEOUTS_VALUE_HEIGHT ) )
+
+        t = self.fontText.render("DOWN:", Colors.TEXT)[0]
+        x = self.downSurface.getValueAsSurface(self.state.getDown()  )
+        c = self.getCombinedSurface(t, x, 12)
+        blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DOWN_HEIGHT))
+        t = self.fontText.render("YARDS TO GO:", Colors.TEXT)[0]
+        x = self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  )
+        c = self.getCombinedSurface(t, x, 12)
+        blitList.append(self.layout.getCenteredBlit(c, FootballLayout.YTG_HEIGHT))
+
+        #t = self.fontText.render("BALL ON", Colors.TEXT)[0]
+        x = self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()  )
+        #c = self.getCombinedSurface(t, x, 12)
+
+        if (self.state.teamPossessingBall == GameState.HOME_INDEX) :
+            blitList.append(self.layout.getLeftSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
+            blitList.append(self.layout.getLeftSideCenteredBlit(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()), FootballLayout.BALL_VALUE_HEIGHT  ))
+        else :
+            blitList.append(self.layout.getRightSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
+            blitList.append(self.layout.getRightSideCenteredBlit(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()), FootballLayout.BALL_VALUE_HEIGHT  ))
 
 
     def processKeyPress(self, event) :
         TimedScoreboard.processKeyPress(self, event)
         if event.key == pygame.K_a:
-            #self.state.modifyLineOfScrimmageTeamFouls(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
-            x=0
+            self.state.modifyLineOfScrimmage(1,  event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_q:
-            self.state.modifyTimeoutsTaken(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyLineOfScrimmage(10,  event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_d:
-           # self.state.modifyTeamFouls(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
-           x=0
+            if (event.mod & pygame.KMOD_LSHIFT) :
+                self.state.resetDownAndDistance()
+            else:
+                self.state.modifyDown()
         elif event.key == pygame.K_e:
-            self.state.modifyTimeoutsTaken(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.changePossessingTeam()
 
 
 

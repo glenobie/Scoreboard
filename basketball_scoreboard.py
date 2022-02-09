@@ -15,6 +15,8 @@ class BasketballScoreboard(TimedScoreboard):
         self.state = BasketballGameState()
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 199)
         self.layout = BasketballLayout(window)
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 12)
+
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 9)
         self.teamFoulsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 19)
         self.createStaticBlits(self.staticBlitList)

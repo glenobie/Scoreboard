@@ -34,8 +34,6 @@ class LayoutWithClock(Layout) :
     CLOCK_TIME_HEIGHT    = 20
     CLOCK_COLON_HEIGHT   = 40
     PERIOD_HEIGHT        = 160
-    PERIOD_VALUE_HEIGHT  = 220
-
 
     def __init__(self, window) :
         Layout.__init__(self, window)

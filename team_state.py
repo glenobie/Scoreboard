@@ -73,6 +73,4 @@ class BasketballTeamState(TeamStateWithTimeouts):
 class FootballTeamState(TeamStateWithTimeouts) :
     def __init__(self, score, maxScore, maxTimeouts) :
         TeamStateWithTimeouts.__init__(self, score, maxScore, maxTimeouts)
-        self.haveBall = False
-
-
+    
