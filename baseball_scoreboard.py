@@ -14,14 +14,14 @@ class BaseballScoreboard(Scoreboard):
         self.state = BaseballGameState()
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99)
         self.layout = BaseballLayout(window)
-        self.hitsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 9)
-        self.errorsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 19)
+        self.hitsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
+        self.errorsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
         self.createStaticBlits(self.staticBlitList)
 
     def createStaticBlits(self, blitList) :
         Scoreboard.createStaticBlits(self, blitList)
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("HITS", Colors.TEXT)[0] , BaseballLayout.HITS_TITLE_HEIGHT) )
-        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("HITS FOULS", Colors.TEXT)[0] , BaseballLayout.HITS_TITLE_HEIGHT) )
+        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("HITS", Colors.TEXT)[0] , BaseballLayout.HITS_TITLE_HEIGHT) )
         blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("ERRORS", Colors.TEXT)[0] , BaseballLayout.ERRORS_TITLE_HEIGHT) )
         blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("ERRORS", Colors.TEXT)[0] , BaseballLayout.ERRORS_TITLE_HEIGHT) )
 
@@ -29,19 +29,19 @@ class BaseballScoreboard(Scoreboard):
     def createDynamicBlits(self, blitList) :
         Scoreboard.createDynamicBlits(self, blitList)
         blitList.append( self.layout.getLeftSideCenteredBlit(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.HOME_INDEX) ), BaseballLayout.HITS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.HOME_INDEX) ), BaseballLayout.HITS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.GUEST_INDEX) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.GUEST_INDEX) ), BaseballLayout.HITS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.HOME_INDEX) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
         blitList.append( self.layout.getRightSideCenteredBlit(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.GUEST_INDEX) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
                         
     def processKeyPress(self, event) :
         Scoreboard.processKeyPress(self, event)
         if event.key == pygame.K_a:
-            self.state.modifyTeamFouls(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyHits(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_q:
-            self.state.modifyTimeoutsTaken(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyErrors(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_d:
-            self.state.modifyTeamFouls(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyHits(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_e:
-            self.state.modifyTimeoutsTaken(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyErrors(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
 
 

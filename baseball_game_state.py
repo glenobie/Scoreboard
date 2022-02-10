@@ -19,6 +19,8 @@ class BaseballGameState(GameState) :
     def getErrors(self, team) :
         return self.teams[team].getErrors()
 
+    def changeSides(self) :
+        self.teamAtBat = (self.teamAtBat + 1) % 2
 
     def modifyHits(self, team, doDecrement=False) :
         if doDecrement :
@@ -31,3 +33,13 @@ class BaseballGameState(GameState) :
             self.teams[team].modifyErrors(-1)
         else:
             self.teams[team].modifyErrors(1)
+
+    def modifyTime(self, doIncrement=False) :
+        #TODO
+        if (doIncrement) :
+            self.changeSides()
+            if self.teamAtBat == GameState.GUEST_INDEX :
+                self.innings += 1
+        else:
+            #TODO
+            x = 0

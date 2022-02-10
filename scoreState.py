@@ -26,6 +26,13 @@ class GameState :
 
     def getMaxScore(self) :
         return self.maxScore
+        
+    def getHomeScore(self) :
+        return self.teams[GameState.HOME_INDEX].getScore()
+
+    def getGuestScore(self) :
+        return self.teams[GameState.GUEST_INDEX].getScore()
+
 
 ###########################   
 class TimedGameState(GameState):
@@ -50,12 +57,7 @@ class TimedGameState(GameState):
     def getSeconds(self):
         return self.seconds
 
-    def getHomeScore(self) :
-            return self.teams[GameState.HOME_INDEX].getScore()
-
-    def getGuestScore(self) :
-            return self.teams[GameState.GUEST_INDEX].getScore()
-
+ 
     def getPeriod(self) :
         return self.period
 

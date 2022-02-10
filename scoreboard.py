@@ -26,18 +26,17 @@ class Fonts:
 class Scoreboard():
 
     def __init__(self, window):
-        Scoreboard.__init__(self, window)
         self.window = window
         self.layout = Layout(self.window)
 
         self.state = GameState()
-
         
         self.fontScore = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SCORE_SIZE)
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
         self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
         self.fontSmallText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALL_TEXT_SIZE)
         self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLER_NUMBER_SIZE)
+
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
 
         self.blitList = []
         self.staticBlitList = []

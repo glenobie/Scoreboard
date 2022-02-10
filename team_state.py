@@ -88,4 +88,14 @@ class BaseballTeamState(TeamState) :
     def getHits(self) :
         return self.hits
 
+    def modifyHits(self, value) :
+        self.hits += value
+        if self.hits < 0 :
+            self.hits = 0
+    
+    def modifyErrors(self, value) :
+        self.errors += value
+        if self.errors < 0 :
+            self.errors = 0
+  
     
