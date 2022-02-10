@@ -5,6 +5,7 @@ import pygame.freetype
 from hockey_scoreboard import HockeyScoreboard
 from basketball_scoreboard import BasketballScoreboard
 from football_scoreboard import FootballScoreboard
+from baseball_scoreboard import BaseballScoreboard
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -82,7 +83,7 @@ class ScoreboardPicker :
 
             
             self.scoreboards = [ ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", FootballScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
                                ]

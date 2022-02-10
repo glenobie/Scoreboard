@@ -14,17 +14,19 @@ class Colors() :
 class Fonts:
     NUMERIC_FILE = "LC-bold.otf"
     TEXT_FILE    = "title-sb.ttf"
-    TIME_SIZE    = 120
+    GAME_CLOCK_SIZE    = 120
     TEXT_SIZE    = 64
     SCORE_SIZE   = 100
-    SMALL_CLOCK_SIZE = 80
+    SMALLER_NUMBER_SIZE = 80
+    SMALLEST_NUMBER_SIZE = 60
     SMALL_TEXT_SIZE = 50
+
 
 #######################
 class Scoreboard():
 
     def __init__(self, window):
-       
+        Scoreboard.__init__(self, window)
         self.window = window
         self.layout = Layout(self.window)
 
@@ -35,6 +37,7 @@ class Scoreboard():
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
         self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
         self.fontSmallText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALL_TEXT_SIZE)
+        self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLER_NUMBER_SIZE)
 
         self.blitList = []
         self.staticBlitList = []
@@ -104,8 +107,7 @@ class Scoreboard():
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
         Scoreboard.__init__(self, window)   
-        self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALL_CLOCK_SIZE)
-        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.TIME_SIZE)
+        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.GAME_CLOCK_SIZE)
         self.layout = LayoutWithClock(self.window) 
         self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 20)
         self.secondsText = NumericSurface(self.fontClock, Colors.CLOCK, 99, True)     

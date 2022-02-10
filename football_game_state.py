@@ -17,7 +17,7 @@ class FootballGameState(TimedGameState) :
         self.MAX_SECONDS = self.MINUTES_PER_PERIOD * 60
         self.seconds = self.MAX_SECONDS
 
-        self.lineOfScrimmage = 0 # 0 to 99
+        self.lineOfScrimmage = 20 # 1 to 99
         self.down = 1
         self.yardsToGain = 10
 
@@ -43,8 +43,12 @@ class FootballGameState(TimedGameState) :
     def changePossessingTeam(self) :
         self.teamPossessingBall = (self.teamPossessingBall + 1) % 2
 
+    # between 0 and 50
     def getLineOfScrimmage(self) :
-        return self.lineOfScrimmage
+        halfFieldYard = self.lineOfScrimmage
+        if (halfFieldYard > 50) :
+            halfFieldYard = 100 - halfFieldYard
+        return halfFieldYard
 
     def modifyLineOfScrimmage(self, value, doDecrement = False) :
         if (doDecrement) :
@@ -65,3 +69,12 @@ class FootballGameState(TimedGameState) :
     def resetDownAndDistance(self) :
         self.yardsToGain = 10
         self.down = 1
+
+    def getYardsToEndzone(self) :
+        return 100 - self.lineOfScrimmage
+
+    def getLineToGain(self) :
+        line = self.lineOfScrimmage + self.yardsToGain
+        if line > 50 :
+            line = 100 - line
+        return line

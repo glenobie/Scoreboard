@@ -6,11 +6,12 @@ class FootballLayout(LayoutWithClock) :
 
     TIMEOUTS_VALUE_HEIGHT  = 240
 
-    DOWN_HEIGHT = 280
-    YTG_HEIGHT = 350
-
+    DOWN_HEIGHT = 260
+    YTG_HEIGHT = 330
+    DISTANCE_HEIGHT = 410
     BALL_TEXT_HEIGHT = 200
     BALL_VALUE_HEIGHT = 260
+
 
 
     def __init__(self, window) :

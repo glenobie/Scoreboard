@@ -11,12 +11,14 @@ class FootballScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
         self.state = FootballGameState()
+        self.fontVerySmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLEST_NUMBER_SIZE)
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)
         self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 15)
         self.downSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
         self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False)
         self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False)
+        self.ltgSurface = NumericSurface(self.fontVerySmallNumber, Colors.PERIOD, 99, False)
 
 
         self.layout = FootballLayout(window)
@@ -42,6 +44,10 @@ class FootballScoreboard(TimedScoreboard):
         x = self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  )
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.YTG_HEIGHT))
+        t = self.fontSmallText.render("LINE TO GAIN:", Colors.TEXT)[0]
+        x = self.ltgSurface.getValueAsSurface(self.state.getLineToGain()  )
+        c = self.getCombinedSurface(t, x, 12)
+        blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DISTANCE_HEIGHT))
 
         #t = self.fontText.render("BALL ON", Colors.TEXT)[0]
         x = self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()  )

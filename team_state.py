@@ -74,3 +74,18 @@ class FootballTeamState(TeamStateWithTimeouts) :
     def __init__(self, score, maxScore, maxTimeouts) :
         TeamStateWithTimeouts.__init__(self, score, maxScore, maxTimeouts)
     
+
+#########################
+class BaseballTeamState(TeamState) :
+    def __init__(self, score, maxScore) :
+        TeamState.__init__(self, score, maxScore)
+        self.hits = 0
+        self.errors = 0
+
+    def getErrors(self) :
+        return self.errors
+
+    def getHits(self) :
+        return self.hits
+
+    
