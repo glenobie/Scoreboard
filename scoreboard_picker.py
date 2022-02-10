@@ -61,7 +61,7 @@ class ScoreboardOption :
     def get_width(self) :
         if self.icon.get_size()[0] > self.title.get_size()[0] :
             return self.icon.get_size()[0] 
-        else :
+        else : 
             return self.title.get_size()[0]
 
 

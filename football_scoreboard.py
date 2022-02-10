@@ -12,13 +12,14 @@ class FootballScoreboard(TimedScoreboard):
         TimedScoreboard.__init__(self, window)
         self.state = FootballGameState()
         self.fontVerySmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLEST_NUMBER_SIZE)
+
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)
         self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 15)
         self.downSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
-        self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False)
-        self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False)
-        self.ltgSurface = NumericSurface(self.fontVerySmallNumber, Colors.PERIOD, 99, False)
+        self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False, 6)
+        self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False, 6)
+        self.ltgSurface = NumericSurface(self.fontVerySmallNumber, Colors.PERIOD, 99, False, 4)
 
 
         self.layout = FootballLayout(window)
@@ -41,17 +42,17 @@ class FootballScoreboard(TimedScoreboard):
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DOWN_HEIGHT))
         t = self.fontText.render("YARDS TO GO:", Colors.TEXT)[0]
-        x = self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  )
+        toGo = self.state.getYardsToGain()
+        if (toGo == FootballGameState.GOAL_TO_GO) :
+            x = self.fontSmallNumber.render("GO", Colors.PERIOD)[0]
+        else :
+            x = self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  )
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.YTG_HEIGHT))
         t = self.fontSmallText.render("LINE TO GAIN:", Colors.TEXT)[0]
         x = self.ltgSurface.getValueAsSurface(self.state.getLineToGain()  )
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DISTANCE_HEIGHT))
-
-        #t = self.fontText.render("BALL ON", Colors.TEXT)[0]
-        x = self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()  )
-        #c = self.getCombinedSurface(t, x, 12)
 
         if (self.state.teamPossessingBall == GameState.HOME_INDEX) :
             blitList.append(self.layout.getLeftSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
