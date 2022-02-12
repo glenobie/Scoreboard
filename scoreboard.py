@@ -4,23 +4,8 @@ import pygame.freetype
 from layout import Layout, LayoutWithClock
 from scoreState import GameState
 from numericSurface import NumericSurface
-
-class Colors() :
-    CLOCK = (255,255,0,200)  # yellow
-    SCORE = (255,0,0,200) # red
-    TEXT  = (255,255,255) # white
-    PERIOD = (0, 255, 0) # green)
-
-class Fonts:
-    NUMERIC_FILE = "LC-bold.otf"
-    TEXT_FILE    = "title-sb.ttf"
-    GAME_CLOCK_SIZE    = 120
-    TEXT_SIZE    = 64
-    SCORE_SIZE   = 100
-    SMALLER_NUMBER_SIZE = 80
-    SMALLEST_NUMBER_SIZE = 60
-    SMALL_TEXT_SIZE = 50
-
+from fonts import Fonts
+from colors import Colors
 
 #######################
 class Scoreboard():
@@ -86,7 +71,7 @@ class Scoreboard():
                 self.running = False
                
     def update(self):
-        self.blitList.clear()
+        x=0
   
     def render(self):
         self.window.fill((0,0,0))

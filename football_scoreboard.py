@@ -2,8 +2,8 @@ import pygame
 from football_game_state import FootballGameState
 from numericSurface import NumericSurface
 from scoreboard import TimedScoreboard
-from scoreboard import Colors
-from scoreboard import Fonts
+from colors import Colors
+from fonts import Fonts
 from scoreState import GameState
 from football_layout import FootballLayout
 

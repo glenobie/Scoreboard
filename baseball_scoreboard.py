@@ -2,7 +2,7 @@
 from baseball_game_state import BaseballGameState
 from scoreboard import Scoreboard
 from numericSurface import NumericSurface
-from scoreboard import Colors
+from colors import Colors
 from baseball_layout import BaseballLayout
 from scoreState import GameState
 import pygame

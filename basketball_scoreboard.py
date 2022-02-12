@@ -3,7 +3,7 @@ from telnetlib import GA
 from basketball_game_state import BasketballGameState
 from numericSurface import NumericSurface
 from scoreboard import TimedScoreboard
-from scoreboard import Colors
+from colors import Colors
 from basketball_layout import BasketballLayout
 from scoreState import GameState
 import pygame

@@ -3,7 +3,7 @@ from hockey_layout import HockeyLayout
 from hockey_game_state import HockeyGameState
 from numericSurface import NumericSurface
 from scoreboard import TimedScoreboard
-from scoreboard import Colors
+from colors import Colors
 
 class HockeyScoreboard(TimedScoreboard):
     def __init__(self, window):
