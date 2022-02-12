@@ -5,6 +5,7 @@ import pygame.freetype
 from hockey_scoreboard import HockeyScoreboard
 from basketball_scoreboard import BasketballScoreboard
 from football_scoreboard import FootballScoreboard
+from baseball_scoreboard import BaseballScoreboard
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -60,7 +61,7 @@ class ScoreboardOption :
     def get_width(self) :
         if self.icon.get_size()[0] > self.title.get_size()[0] :
             return self.icon.get_size()[0] 
-        else :
+        else : 
             return self.title.get_size()[0]
 
 
@@ -82,7 +83,7 @@ class ScoreboardPicker :
 
             
             self.scoreboards = [ ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", FootballScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
                                ]
@@ -96,22 +97,23 @@ class ScoreboardPicker :
 
     def processInput(self) :
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    break
-                elif event.type == pygame.KEYDOWN :
-                    #if event.key == pygame.K_ESCAPE:
-                    #    self.running = False
-                    #    break
-                    if event.key == pygame.K_d:
-                        self.scoreboards[self.scoreboardIndex].isSelected(False)
-                        self.scoreboardIndex = (self.scoreboardIndex + 1) % (len(self.scoreboards) ) 
-                        self.scoreboards[self.scoreboardIndex].isSelected(True)    
-                    elif event.key == pygame.K_a:
-                        self.scoreboards[self.scoreboardIndex].isSelected(False)
-                        self.scoreboardIndex = (self.scoreboardIndex - 1) % (len(self.scoreboards) ) 
-                        self.scoreboards[self.scoreboardIndex].isSelected(True)    
-                    elif event.key == pygame.K_s:
+            if event.type == pygame.QUIT:
+                self.running = False
+                break
+            elif event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_d:
+                    self.scoreboards[self.scoreboardIndex].isSelected(False)
+                    self.scoreboardIndex = (self.scoreboardIndex + 1) % (len(self.scoreboards) ) 
+                    self.scoreboards[self.scoreboardIndex].isSelected(True)    
+                elif event.key == pygame.K_a:
+                    self.scoreboards[self.scoreboardIndex].isSelected(False)
+                    self.scoreboardIndex = (self.scoreboardIndex - 1) % (len(self.scoreboards) ) 
+                    self.scoreboards[self.scoreboardIndex].isSelected(True)    
+                elif event.key == pygame.K_s:
+                    if (event.mod & pygame.KMOD_LSHIFT) :
+                        self.running = False
+                        break
+                    else :
                         self.scoreboards[self.scoreboardIndex].processSelection()
                     
     def render(self) :

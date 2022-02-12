@@ -1,7 +1,7 @@
 
 import pygame
 import pygame.freetype
-from layout import HockeyLayout, Layout, LayoutWithClock
+from layout import Layout, LayoutWithClock
 from scoreState import GameState
 from numericSurface import NumericSurface
 
@@ -14,25 +14,29 @@ class Colors() :
 class Fonts:
     NUMERIC_FILE = "LC-bold.otf"
     TEXT_FILE    = "title-sb.ttf"
-    TIME_SIZE    = 120
-    TEXT_SIZE    = 60
+    GAME_CLOCK_SIZE    = 120
+    TEXT_SIZE    = 64
     SCORE_SIZE   = 100
-    SMALL_CLOCK_SIZE = 80
+    SMALLER_NUMBER_SIZE = 80
+    SMALLEST_NUMBER_SIZE = 60
+    SMALL_TEXT_SIZE = 50
+
 
 #######################
 class Scoreboard():
 
     def __init__(self, window):
-       
         self.window = window
         self.layout = Layout(self.window)
 
         self.state = GameState()
-
         
         self.fontScore = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SCORE_SIZE)
-        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
         self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
+        self.fontSmallText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALL_TEXT_SIZE)
+        self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLER_NUMBER_SIZE)
+
+        self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
 
         self.blitList = []
         self.staticBlitList = []
@@ -44,6 +48,23 @@ class Scoreboard():
     def createDynamicBlits(self, blitList) :
         blitList.append( self.layout.getLeftSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getHomeScore()), Layout.SCORE_HEIGHT)) 
         blitList.append( self.layout.getRightSideCenteredBlit(self.scoreText.getValueAsSurface(self.state.getGuestScore()), Layout.SCORE_HEIGHT)) 
+
+    def getCombinedSurface(self, firstSurface, secondSurface, spacing) :
+        width = firstSurface.get_size()[0] + secondSurface.get_size()[0] + spacing
+        if  firstSurface.get_size()[1] > secondSurface.get_size()[1] :
+            height = firstSurface.get_size()[1]
+            offset = (firstSurface.get_size()[1] - secondSurface.get_size()[1]) / 2
+            combinedSurface = pygame.Surface( (width, height ))
+            combinedSurface.blit(firstSurface, (0,0))
+            combinedSurface.blit(secondSurface, (width - secondSurface.get_size()[0], offset))
+        else :
+            height = secondSurface.get_size()[1] 
+            offset = (secondSurface.get_size()[1] - firstSurface.get_size()[1]) / 2
+            combinedSurface = pygame.Surface( (width, height ))
+            combinedSurface.blit(firstSurface, (0,offset))
+            combinedSurface.blit(secondSurface, (width - secondSurface.get_size()[0], 0))
+
+        return combinedSurface
 
     def processInput(self):
         for event in pygame.event.get():
@@ -85,13 +106,11 @@ class Scoreboard():
 class TimedScoreboard(Scoreboard) :
     def __init__(self, window):
         Scoreboard.__init__(self, window)   
-        self.fontSmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALL_CLOCK_SIZE)
-        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.TIME_SIZE)
+        self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.GAME_CLOCK_SIZE)
         self.layout = LayoutWithClock(self.window) 
-        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 99)
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 20)
         self.secondsText = NumericSurface(self.fontClock, Colors.CLOCK, 99, True)     
         self.period = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
-
    
     def processKeyPress(self, event) :            
         Scoreboard.processKeyPress(self, event)
@@ -109,4 +128,9 @@ class TimedScoreboard(Scoreboard) :
         Scoreboard.createDynamicBlits(self, blitList)
         blitList.append( self.layout.getMinutesBlit(self.minutesText.getValueAsSurface(self.state.getSeconds() // 60))) 
         blitList.append( self.layout.getSecondsBlit(self.secondsText.getValueAsSurface(self.state.getSeconds() % 60))) 
-        blitList.append( self.layout.getCenteredBlit(self.period.getValueAsSurface(self.state.getPeriod() ), LayoutWithClock.PERIOD_VALUE_HEIGHT ) )
+        #blitList.append( self.layout.getCenteredBlit(self.period.getValueAsSurface(self.state.getPeriod() ), LayoutWithClock.PERIOD_VALUE_HEIGHT ) )
+
+        t = self.fontText.render(self.state.getTimeDivisionName() + ":", Colors.TEXT)[0]
+        x = self.period.getValueAsSurface(self.state.getPeriod()  )
+        c = self.getCombinedSurface(t, x, 12)
+        blitList.append(self.layout.getCenteredBlit(c, LayoutWithClock.PERIOD_HEIGHT))
