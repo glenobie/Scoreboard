@@ -11,7 +11,6 @@ class FootballScoreboard(TimedScoreboard):
     def __init__(self, window):
         TimedScoreboard.__init__(self, window)
         self.state = FootballGameState()
-        self.fontVerySmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLEST_NUMBER_SIZE)
 
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)

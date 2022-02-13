@@ -11,10 +11,7 @@ from fonts import Fonts
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-
-
 class ScoreboardOption :
-
 
     SPACING = 10 # between icon and title
 
@@ -23,7 +20,7 @@ class ScoreboardOption :
         #home = str(Path.home())
         
         self.fontImages = pygame.freetype.Font(Fonts.DINGBAT_FILE, Fonts.DINGBAT_SIZE)
-        self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.TEXT_SIZE)
+        self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALLEST_TEXT_SIZE)
 
         self.dingbat = dingbat
         self.text = text

@@ -1,7 +1,7 @@
 
 
 class Fonts:
-    PATH = "/home/gwober/myCode/"
+    PATH = "/home/gwober/myCode/Scoreboard/"
     NUMERIC_FILE = PATH + "LC-bold.otf"
     TEXT_FILE    = PATH + "title-sb.ttf"
     DINGBAT_FILE = PATH + "sports.otf"
@@ -13,4 +13,4 @@ class Fonts:
     SMALLEST_NUMBER_SIZE = 60
     SMALL_TEXT_SIZE = 50
     DINGBAT_SIZE = 120
-    TEXT_SIZE = 40
+    SMALLEST_TEXT_SIZE = 40

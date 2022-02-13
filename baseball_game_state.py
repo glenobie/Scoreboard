@@ -1,3 +1,5 @@
+
+from re import S
 from scoreState import GameState
 from team_state import BaseballTeamState
 
@@ -21,6 +23,14 @@ class BaseballGameState(GameState) :
 
     def changeSides(self) :
         self.teamAtBat = (self.teamAtBat + 1) % 2
+        if self.teamAtBat == GameState.GUEST_INDEX :
+                self.inning += 1
+
+    def undoSideChange(self) :
+        if not(self.isGameStart()) :
+            self.teamAtBat = (self.teamAtBat - 1) % 2
+            if (self.teamAtBat == GameState.HOME_INDEX) :
+                self.inning -= 1
 
     def modifyHits(self, team, doDecrement=False) :
         if doDecrement :
@@ -34,12 +44,33 @@ class BaseballGameState(GameState) :
         else:
             self.teams[team].modifyErrors(1)
 
-    def modifyTime(self, doIncrement=False) :
-        #TODO
-        if (doIncrement) :
-            self.changeSides()
-            if self.teamAtBat == GameState.GUEST_INDEX :
-                self.innings += 1
+    def isGameStart(self) :
+        return (self.inning == 1 and self.teamAtBat == GameState.GUEST_INDEX)
+ 
+    def modifyTime(self, doDecrement=False) :
+        if (doDecrement) :
+            self.undoSideChange()
         else:
-            #TODO
-            x = 0
+            self.changeSides()
+            
+
+
+    def modifyOuts(self) :
+        self.outs = (self.outs+1) % 3
+
+    def getOuts(self) :
+        return self.outs
+    
+    def getInning(self) :
+        return self.inning
+
+    def getHalfInning(self) :
+        if self.teamAtBat == GameState.GUEST_INDEX :
+            s = "TOP"
+        else :
+            s = "BTM"
+        return s
+
+    def getTeamAtBat(self) :
+        return self.teamAtBat
+    
