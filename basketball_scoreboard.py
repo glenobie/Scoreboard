@@ -15,7 +15,7 @@ class BasketballScoreboard(TimedScoreboard):
         self.state = BasketballGameState()
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 199)
         self.layout = BasketballLayout(window)
-        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 12)
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 20)
 
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 9)
         self.teamFoulsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 19)
@@ -31,10 +31,10 @@ class BasketballScoreboard(TimedScoreboard):
        
     def createDynamicBlits(self, blitList) :
         TimedScoreboard.createDynamicBlits(self, blitList)
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.teamFoulsSurface.getValueAsSurface(self.state.getTeamFouls(GameState.HOME_INDEX) ), BasketballLayout.TEAM_FOULS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.HOME_INDEX) ), BasketballLayout.TIMEOUTS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.teamFoulsSurface.getValueAsSurface(self.state.getTeamFouls(GameState.GUEST_INDEX) ), BasketballLayout.TEAM_FOULS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX) ), BasketballLayout.TIMEOUTS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.teamFoulsSurface.getValueAsSurface(self.state.getTeamFouls(GameState.HOME_INDEX) )), BasketballLayout.TEAM_FOULS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.HOME_INDEX)) ), BasketballLayout.TIMEOUTS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.teamFoulsSurface.getValueAsSurface(self.state.getTeamFouls(GameState.GUEST_INDEX) )), BasketballLayout.TEAM_FOULS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX)) ), BasketballLayout.TIMEOUTS_VALUE_HEIGHT ) )
                         
     def processKeyPress(self, event) :
         TimedScoreboard.processKeyPress(self, event)

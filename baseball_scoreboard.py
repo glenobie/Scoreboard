@@ -12,6 +12,7 @@ class BaseballScoreboard(Scoreboard):
 
     SPACING = 12
 
+
     def __init__(self, window):
         Scoreboard.__init__(self, window)
 
@@ -21,20 +22,22 @@ class BaseballScoreboard(Scoreboard):
         self.hitsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
         self.errorsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
         self.outSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 2)
-        self.inningNumberSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99)
+        self.inningNumberSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99, False, 8, 8)
         self.halfInningSize = self.fontVerySmallNumber.render("BTM")[0].get_size()
         self.createStaticBlits(self.staticBlitList)
 
     def createInningSurface(self) :
         n = self.inningNumberSurface.getValueAsSurface(self.state.getInning())
-        h = pygame.Surface( (self.halfInningSize[0], self.halfInningSize[1] * 2 + BaseballScoreboard.SPACING ) )
-       
-        y = 0
+        h = pygame.Surface( (self.halfInningSize[0] + Scoreboard.OUTLINE_SPACING, 
+                        self.halfInningSize[1] * 2 + BaseballScoreboard.SPACING + Scoreboard.OUTLINE_SPACING*2) )
+        h.fill(Colors.BACKGROUND)
+        y = Scoreboard.OUTLINE_SPACING
         if self.state.getTeamAtBat() == GameState.HOME_INDEX :
-            y = self.halfInningSize[1] + BaseballScoreboard.SPACING
-        h.blit(self.fontVerySmallNumber.render(self.state.getHalfInning(), Colors.PERIOD)[0], (0, y))
+            y += self.halfInningSize[1] + BaseballScoreboard.SPACING 
+        h.blit(self.fontVerySmallNumber.render(self.state.getHalfInning(), Colors.PERIOD)[0], (Scoreboard.OUTLINE_SPACING, y))
         c = self.getCombinedSurface(h, n, 12)
-        return c
+        
+        return self.insetSurface(c)
 
     def createStaticBlits(self, blitList) :
         Scoreboard.createStaticBlits(self, blitList)
@@ -47,11 +50,11 @@ class BaseballScoreboard(Scoreboard):
        
     def createDynamicBlits(self, blitList) :
         Scoreboard.createDynamicBlits(self, blitList)
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.HOME_INDEX) ), BaseballLayout.HITS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.GUEST_INDEX) ), BaseballLayout.HITS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.HOME_INDEX) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.GUEST_INDEX) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getCenteredBlit(self.outSurface.getValueAsSurface(self.state.getOuts()), BaseballLayout.OUTS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.HOME_INDEX) )), BaseballLayout.HITS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.hitsSurface.getValueAsSurface(self.state.getHits(GameState.GUEST_INDEX) )), BaseballLayout.HITS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.HOME_INDEX)) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.errorsSurface.getValueAsSurface(self.state.getErrors(GameState.GUEST_INDEX)) ), BaseballLayout.ERRORS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getCenteredBlit(self.insetSurface(self.outSurface.getValueAsSurface(self.state.getOuts())), BaseballLayout.OUTS_VALUE_HEIGHT ) )
 
         blitList.append(self.layout.getCenteredBlit(self.createInningSurface(), BaseballLayout.INNING_BOTTOM_HALF_HEIGHT))
 

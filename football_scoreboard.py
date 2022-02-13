@@ -1,3 +1,4 @@
+from readline import insert_text
 import pygame
 from football_game_state import FootballGameState
 from numericSurface import NumericSurface
@@ -14,7 +15,7 @@ class FootballScoreboard(TimedScoreboard):
 
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)
-        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 15)
+        self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 20)
         self.downSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 9, False)
         self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False, 6)
         self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False, 6)
@@ -37,28 +38,28 @@ class FootballScoreboard(TimedScoreboard):
     #    blitList.append( self.layout.getRightSideCenteredBlit(self.timeoutsSurface.getValueAsSurface(self.state.getTimeoutsTaken(GameState.GUEST_INDEX) ), FootballLayout.TIMEOUTS_VALUE_HEIGHT ) )
 
         t = self.fontText.render("DOWN:", Colors.TEXT)[0]
-        x = self.downSurface.getValueAsSurface(self.state.getDown()  )
+        x = self.insetSurface(self.downSurface.getValueAsSurface(self.state.getDown()  ))
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DOWN_HEIGHT))
         t = self.fontText.render("YARDS TO GO:", Colors.TEXT)[0]
         toGo = self.state.getYardsToGain()
         if (toGo == FootballGameState.GOAL_TO_GO) :
-            x = self.fontSmallNumber.render("GO", Colors.PERIOD)[0]
+            x = self.insetSurface( self.fontSmallNumber.render("GO", Colors.PERIOD)[0])
         else :
-            x = self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  )
+            x = self.insetSurface( self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  ))
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.YTG_HEIGHT))
         t = self.fontSmallText.render("LINE TO GAIN:", Colors.TEXT)[0]
-        x = self.ltgSurface.getValueAsSurface(self.state.getLineToGain()  )
+        x = self.insetSurface(self.ltgSurface.getValueAsSurface(self.state.getLineToGain()  ))
         c = self.getCombinedSurface(t, x, 12)
         blitList.append(self.layout.getCenteredBlit(c, FootballLayout.DISTANCE_HEIGHT))
 
         if (self.state.teamPossessingBall == GameState.HOME_INDEX) :
             blitList.append(self.layout.getLeftSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
-            blitList.append(self.layout.getLeftSideCenteredBlit(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()), FootballLayout.BALL_VALUE_HEIGHT  ))
+            blitList.append(self.layout.getLeftSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage())), FootballLayout.BALL_VALUE_HEIGHT  ))
         else :
             blitList.append(self.layout.getRightSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
-            blitList.append(self.layout.getRightSideCenteredBlit(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage()), FootballLayout.BALL_VALUE_HEIGHT  ))
+            blitList.append(self.layout.getRightSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage())), FootballLayout.BALL_VALUE_HEIGHT  ))
 
 
     def processKeyPress(self, event) :
