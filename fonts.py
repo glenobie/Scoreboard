@@ -1,7 +1,7 @@
 
 
 class Fonts:
-    PATH = "/home/gwober/myCode/Scoreboard/"
+    PATH = "/home/gwober/myCode/"
     NUMERIC_FILE = PATH + "LC-bold.otf"
     TEXT_FILE    = PATH + "title-sb.ttf"
     DINGBAT_FILE = PATH + "sports.otf"

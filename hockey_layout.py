@@ -2,14 +2,13 @@ from layout import LayoutWithClock, Layout
 
 class HockeyLayout(LayoutWithClock) :  
 
-    PENALTY_1_HEIGHT = 180
-    PENALTY_2_HEIGHT = 340
-
+    PENALTY_1_HEIGHT = 194
     PENALTY_1_COLON_HEIGHT = 260
-    PENALTY_2_COLON_HEIGHT = 420
-
     PENALTY_1_TIME_HEIGHT  = 240
-    PENALTY_2_TIME_HEIGHT  = 400
+
+    PENALTY_2_HEIGHT = 344
+    PENALTY_2_COLON_HEIGHT = 410
+    PENALTY_2_TIME_HEIGHT  = 390
 
 
     def getLeftPenaltyColonBlit(self, colon, height) :

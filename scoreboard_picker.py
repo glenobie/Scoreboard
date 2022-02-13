@@ -115,7 +115,7 @@ class ScoreboardPicker :
                         self.scoreboards[self.scoreboardIndex].processSelection()
                     
     def render(self) :
-        self.window.fill((0,0,0))
+        self.window.fill(Colors.BACKGROUND)
         x = 44
         for option in self.scoreboards :
             option.draw(self.window, (x,140) )

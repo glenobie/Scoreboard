@@ -11,7 +11,7 @@ from colors import Colors
 class Scoreboard():
 
     OUTLINE_SPACING = 8
-    OUTLINE_WIDTH   = 1
+    OUTLINE_WIDTH   = 2
     SHADOW_WIDTH    = 4
 
     def __init__(self, window):
@@ -62,11 +62,11 @@ class Scoreboard():
         w = surface.get_size()[0]
         h = surface.get_size()[1]
         pygame.draw.rect(surface, Colors.OUTLINE, (0, 0, w, h), Scoreboard.OUTLINE_WIDTH)   
-        shadowOffset =  NumericSurface.OUTLINE_WIDTH + Scoreboard.SHADOW_WIDTH/2
+        shadowOffset =  NumericSurface.OUTLINE_WIDTH + Scoreboard.SHADOW_WIDTH // 2
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (w - shadowOffset, shadowOffset), Scoreboard.SHADOW_WIDTH) 
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (shadowOffset, h-shadowOffset), Scoreboard.SHADOW_WIDTH) 
-        pygame.draw.line(surface, Colors.OUTLINE, (2, h-2), (w-2, h-2), 1) 
-        pygame.draw.line(surface, Colors.OUTLINE, (w-2, 2), (w-2, h-2), 1) 
+        pygame.draw.line(surface, (30,30,30), (4,h-4), (w-4, h-4), 3) 
+        pygame.draw.line(surface, (30,30,30), (w-4, 4), (w-4, h-4), 3) 
         
         return surface
 
