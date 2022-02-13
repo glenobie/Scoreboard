@@ -21,7 +21,7 @@ class BaseballScoreboard(Scoreboard):
         self.hitsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
         self.errorsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99)
         self.outSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 2)
-        self.inningNumberSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99)
+        self.inningNumberSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99)
         self.halfInningSize = self.fontVerySmallNumber.render("BTM")[0].get_size()
         self.createStaticBlits(self.staticBlitList)
 

@@ -72,7 +72,7 @@ class Scoreboard():
                 self.running = False
                
     def update(self):
-        x=0
+        self.blitList = []
   
     def render(self):
         self.window.fill((0,0,0))

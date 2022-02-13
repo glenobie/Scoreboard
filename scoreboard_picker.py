@@ -127,7 +127,7 @@ class ScoreboardPicker :
             self.running = True
             while self.running:
                 self.processInput()
-                self.update()
+                #self.update()
                 self.render()
 
 picker = ScoreboardPicker()
