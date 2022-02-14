@@ -44,7 +44,7 @@ class FootballScoreboard(TimedScoreboard):
         t = self.fontText.render("YARDS TO GO:", Colors.TEXT)[0]
         toGo = self.state.getYardsToGain()
         if (toGo == FootballGameState.GOAL_TO_GO) :
-            x = self.insetSurface( self.fontSmallNumber.render("GO", Colors.PERIOD)[0])
+            x = self.insetSurface( self.ytgSurface.getValueAsSurface("GO"))
         else :
             x = self.insetSurface( self.ytgSurface.getValueAsSurface(self.state.getYardsToGain()  ))
         c = self.getCombinedSurface(t, x, 12)
