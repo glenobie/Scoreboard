@@ -114,27 +114,5 @@ class BaseballTeamState(TeamState) :
         if self.errors < 0 :
             self.errors = 0
   
-    
-#########################
-class CricketTeamState(TeamState) :
-    def __init__(self, score, maxScore) :
-        TeamState.__init__(self, score, maxScore)
-        self.hits = 0
-        self.errors = 0
 
-    def getErrors(self) :
-        return self.errors
-
-    def getHits(self) :
-        return self.hits
-
-    def modifyHits(self, value) :
-        self.hits += value
-        if self.hits < 0 :
-            self.hits = 0
-    
-    def modifyErrors(self, value) :
-        self.errors += value
-        if self.errors < 0 :
-            self.errors = 0
   

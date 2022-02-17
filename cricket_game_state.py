@@ -1,76 +1,125 @@
 
-from re import S
 from scoreState import GameState
-from team_state import CricketTeamState
+
+class CricketBatter() :
+
+    def __init__(self, value) :
+        self.runs = 0
+        self.number = value
+
+    def setNumber(self, value) :
+        self.number = value
+
+    def modifyRuns(self, value) :
+        self.runs += value
+        if (self.runs < 0 ): self.runs = 0
+
+    def resetRuns(self) :
+        self.runs = 0
+        
+    def getNumber(self) :
+        return self.number
+
+    def getRuns(self) :
+        return self.runs
+
+    
 
 class CricketGameState(GameState) :
     
+    MAX_WICKETS = 10
+    MAX_BATTERS = 11
+
     def __init__(self):
         #invoking the __init__ of the parent class 
         GameState.__init__(self) 
-        self.maxScore = 99
-        self.teams = [CricketTeamState(0, self.getMaxScore() ), 
-                      CricketTeamState(0, self.getMaxScore() )]
-        self.inning = 1
-        self.outs = 0
-        self.teamAtBat = GameState.GUEST_INDEX
+        self.maxScore = 999
+        self.lastInnings = 0
+        self.total = 0
+        self.lockedTotal = 0
+        self.changeSides()
+  
+    def changeLeftBatter(self) :
+        self.lockedTotal += self.leftBatter.getRuns()
+        self.leftBatter.resetRuns()
 
-    def getHits(self, team) :
-        return self.teams[team].getHits()
+    def getOvers(self) :
+        return self.overs
     
-    def getErrors(self, team) :
-        return self.teams[team].getErrors()
+    def getWickets(self) :
+        return self.wickets
 
     def changeSides(self) :
-        self.teamAtBat = (self.teamAtBat + 1) % 2
-        if self.teamAtBat == GameState.GUEST_INDEX :
-                self.inning += 1
+        self.lastInnings = self.total
+        self.total = 0
+        self.wickets = 0
+        self.lastWicket = 0
+        self.overs = 0
+        self.leftBatter = CricketBatter(1)
+        self.rightBatter =  CricketBatter(2)
 
-    def undoSideChange(self) :
-        if not(self.isGameStart()) :
-            self.teamAtBat = (self.teamAtBat - 1) % 2
-            if (self.teamAtBat == GameState.HOME_INDEX) :
-                self.inning -= 1
+    def recordScore(self):
+        self.lastWicket = self.total
+        
 
-    def modifyHits(self, team, doDecrement=False) :
-        if doDecrement :
-            self.teams[team].modifyHits(-1)
-        else:
-            self.teams[team].modifyHits(1)
-
-    def modifyErrors(self, team, doDecrement=False) :
-        if doDecrement :
-            self.teams[team].modifyErrors(-1)
-        else:
-            self.teams[team].modifyErrors(1)
-
-    def isGameStart(self) :
-        return (self.inning == 1 and self.teamAtBat == GameState.GUEST_INDEX)
- 
     def modifyTime(self, doDecrement=False) :
-        if (doDecrement) :
-            self.undoSideChange()
-        else:
-            self.changeSides()
-            
+        # add/subtract overs from team in field
+        adj = 1
+        if (doDecrement) : adj = -1
+        self.overs += adj
+        if self.overs < 0 : self.overs = 0
 
+    def incrementWickets(self) :
+        self.wickets = (self.wickets + 1) % CricketGameState.MAX_WICKETS
 
-    def modifyOuts(self) :
-        self.outs = (self.outs+1) % 3
+    def getTotal(self) :
+        return self.total
 
-    def getOuts(self) :
-        return self.outs
-    
-    def getInning(self) :
-        return self.inning
+    def getLeftBatterNumber(self) :
+        return self.leftBatter.getNumber()
 
-    def getHalfInning(self) :
-        if self.teamAtBat == GameState.GUEST_INDEX :
-            s = "TOP"
-        else :
-            s = "BTM"
-        return s
+    def getRightBatterNumber(self) :
+        return self.rightBatter.getNumber()
+        
+    def getLeftBatterRuns(self) :
+        return self.leftBatter.getRuns()
 
-    def getTeamAtBat(self) :
-        return self.teamAtBat
-    
+    def getRightBatterRuns(self) :
+        return self.rightBatter.getRuns()
+
+    def modifyLeftBatterRuns(self, doDecrement=False) :
+        adj = 1
+        if doDecrement : adj = -1
+        self.leftBatter.modifyRuns(adj)
+        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns()
+
+    def modifyRightBatterRuns(self, doDecrement=False) :
+        adj = 1
+        if doDecrement : adj = -1
+        self.rightBatter.modifyRuns(adj)
+        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns()
+
+    def incrementLeftBatterNumber(self) :
+        self.leftBatter.setNumber((self.leftBatter.getNumber()  % CricketGameState.MAX_BATTERS) + 1)
+
+    def incrementRightBatterNumber(self) :
+        self.rightBatter.setNumber((self.rightBatter.getNumber()  % CricketGameState.MAX_BATTERS) + 1)
+
+    def getLastInnings(self) :
+        return self.lastInnings
+
+    def getLastWicket(self) :
+        return self.lastWicket
+
+    def changeRightBatter(self) :
+        self.lockedTotal += self.rightBatter.getRuns()
+        self.rightBatter.resetRuns()
+
+    def changeLeftBatter(self) :
+        self.lockedTotal += self.leftBatter.getRuns()
+        self.leftBatter.resetRuns()
+        
+    def swapBatters(self) :
+        temp = self.leftBatter
+        self.leftBatter = self.rightBatter
+        self.rightBatter = temp
