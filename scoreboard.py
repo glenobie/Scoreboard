@@ -11,10 +11,10 @@ from colors import Colors
 class Scoreboard():
 
     OUTLINE_SPACING = 8
-    OUTLINE_WIDTH   = 1
+    OUTLINE_WIDTH   = 2
     SHADOW_WIDTH    = 4
 
-    def __init__(self, window):
+    def __init__(self, window, leftTitle="GUEST", rightTitle="HOME"):
         self.window = window
         self.layout = Layout(self.window)
 
@@ -27,13 +27,14 @@ class Scoreboard():
         self.fontVerySmallNumber = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.SMALLEST_NUMBER_SIZE)
 
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 2)
-
+        self.leftTitle = leftTitle
+        self.rightTitle = rightTitle
         self.blitList = []
         self.staticBlitList = []
 
     def createStaticBlits(self, blitList) :
-        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render("HOME", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
-        blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render("GUEST", Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
+        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontText.render(self.leftTitle, Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
+        blitList.append( self.layout.getRightSideCenteredBlit( self.fontText.render(self.rightTitle, Colors.TEXT)[0] , Layout.HOME_GUEST_HEIGHT) )
 
     def createDynamicBlits(self, blitList) :
         blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.scoreText.getValueAsSurface(self.state.getHomeScore())), Layout.SCORE_HEIGHT)) 
@@ -62,11 +63,11 @@ class Scoreboard():
         w = surface.get_size()[0]
         h = surface.get_size()[1]
         pygame.draw.rect(surface, Colors.OUTLINE, (0, 0, w, h), Scoreboard.OUTLINE_WIDTH)   
-        shadowOffset =  NumericSurface.OUTLINE_WIDTH + Scoreboard.SHADOW_WIDTH/2
+        shadowOffset =  NumericSurface.OUTLINE_WIDTH + Scoreboard.SHADOW_WIDTH // 2
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (w - shadowOffset, shadowOffset), Scoreboard.SHADOW_WIDTH) 
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (shadowOffset, h-shadowOffset), Scoreboard.SHADOW_WIDTH) 
-        pygame.draw.line(surface, Colors.OUTLINE, (2, h-2), (w-2, h-2), 1) 
-        pygame.draw.line(surface, Colors.OUTLINE, (w-2, 2), (w-2, h-2), 1) 
+        pygame.draw.line(surface, (30,30,30), (4,h-4), (w-4, h-4), 3) 
+        pygame.draw.line(surface, (30,30,30), (w-4, 4), (w-4, h-4), 3) 
         
         return surface
 
@@ -108,8 +109,8 @@ class Scoreboard():
 
 ###################
 class TimedScoreboard(Scoreboard) :
-    def __init__(self, window):
-        Scoreboard.__init__(self, window)   
+    def __init__(self, window, leftTitle = "GUEST", rightTitle = "HOME"):
+        Scoreboard.__init__(self, window, leftTitle, rightTitle)   
         self.fontClock = pygame.freetype.Font(Fonts.NUMERIC_FILE, Fonts.GAME_CLOCK_SIZE)
         self.layout = LayoutWithClock(self.window) 
         self.minutesText = NumericSurface(self.fontClock, Colors.CLOCK, 20)

@@ -1,5 +1,7 @@
 
 from ast import Num
+from pickle import NONE
+from xml.dom import NotFoundErr
 import pygame.freetype
 import pygame
 from colors import Colors
@@ -45,15 +47,21 @@ class NumericSurface () :
         donePrintingLeadingZeroes = False
         i = 0
         for digit in value :
-            digitWidth = self.font.get_metrics(digit)[0][1] - self.font.get_metrics(digit)[0][0]
+            yPos = self.border
+            fontMetrics = self.font.get_metrics(digit)[0]
+            if not(fontMetrics is None) :
+               digitWidth = self.font.get_metrics(digit)[0][1] - self.font.get_metrics(digit)[0][0]
+            else :
+               digitWidth = 30 # FUDGE for testing of missing chars
             xPos = self.positions[i] - digitWidth + self.border 
 
             if digit.startswith("0") :
                 if (self.displayLeadingZeroes or donePrintingLeadingZeroes or i == len(value)-1) :
-                     surface.blit(self.font.render(digit, self.color)[0], (xPos, self.border)  )
+                     surface.blit(self.font.render(digit, self.color)[0], (xPos, yPos)  )
             else :
                 donePrintingLeadingZeroes = True
-                surface.blit(self.font.render(digit, self.color)[0], (xPos, self.border)  )
+                if (digit == "-") : yPos += surface.get_height() / 3
+                surface.blit(self.font.render(digit, self.color)[0], (xPos, yPos)  )
             i += 1
  
     def getValueAsSurface(self, value) :

@@ -15,6 +15,19 @@ class TeamState :
         if (self.score < self.maxScore) :
             self.score += 1 
 
+######################
+class BoxerState(TeamState) :
+    def __init__(self, score, maxScore=39) :
+        TeamState.__init__(self, score, maxScore)
+        self.endurance = 20
+
+    def getEndurance(self) :
+        return self.endurance
+    
+    def modifyEndurance(self, value) :
+        self.endurance += value
+
+
 ########################
 class TeamStateWithTimeouts(TeamState) :
     def __init__(self, score, maxScore, maxTimeouts) :

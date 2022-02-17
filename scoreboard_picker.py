@@ -6,6 +6,7 @@ from hockey_scoreboard import HockeyScoreboard
 from basketball_scoreboard import BasketballScoreboard
 from football_scoreboard import FootballScoreboard
 from baseball_scoreboard import BaseballScoreboard
+from boxing_scoreboard import BoxingScoreboard
 from colors import Colors
 from fonts import Fonts
 
@@ -25,23 +26,28 @@ class ScoreboardOption :
         self.dingbat = dingbat
         self.text = text
         self.icon = self.fontImages.render(dingbat, Colors.DEFAULT_COLOR)[0]
+        self.iconWidth = self.icon.get_size()[0]
         
         self.title = self.fontText.render(text, Colors.DEFAULT_COLOR)[0]
+        self.titleWidth = self.title.get_size()[0]
         self.scoreboard = scoreboard
         
     def processSelection(self) :
         self.scoreboard.run()
 
-    def draw(self, window, position) :
-        iconX = titleX = position[0]
+    def draw(self, window, position) : # position is center of object
+        
+
+        iconX =  position[0] - (self.iconWidth / 2)
+        titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
         titleY = position[1] + ScoreboardOption.SPACING + self.icon.get_size()[1] 
 
         # compare widths in order to set x position
-        if self.icon.get_size()[0] > self.title.get_size()[0]  : 
-            titleX = iconX + (self.icon.get_size()[0] - self.title.get_size()[0]) / 2 
-        else :
-            iconX = titleX + (self.title.get_size()[0] - self.icon.get_size()[0]) / 2 
+        #if self.icon.get_size()[0] > self.title.get_size()[0]  : 
+        ##    titleX = iconX + (self.icon.get_size()[0] - self.title.get_size()[0]) / 2 
+        #else :
+        #    iconX = titleX + (self.title.get_size()[0] - self.icon.get_size()[0]) / 2 
 
         window.blit(self.icon, (iconX, iconY) )
         window.blit(self.title, (titleX, titleY) )
@@ -68,6 +74,8 @@ class ScoreboardPicker :
     BASKETBALL_DINGBAT = "P"
     BASEBALL_DINGBAT = "e"
     FOOTBALL_DINGBAT = "y"
+    CRICKET_DINGBAT = "M"
+    BOXING_DINGBAT = "L"
 
     def __init__(self):
             pygame.init()
@@ -80,7 +88,9 @@ class ScoreboardPicker :
             pygame.display.set_caption("SCOREBOARD")
 
             
-            self.scoreboards = [ ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
+            self.scoreboards = [ ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", HockeyScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
@@ -115,11 +125,15 @@ class ScoreboardPicker :
                         self.scoreboards[self.scoreboardIndex].processSelection()
                     
     def render(self) :
-        self.window.fill((0,0,0))
-        x = 44
+        self.window.fill(Colors.BACKGROUND)
+        count = 0
+        
         for option in self.scoreboards :
-            option.draw(self.window, (x,140) )
-            x += option.get_width() + 60
+           
+            option.draw(self.window, ( 150 + (count % 3) * 240 , 70 + 200 * (count // 3)))
+            count += 1            
+
+            # x += option.get_width() + 60
 
         pygame.display.update()   
 
