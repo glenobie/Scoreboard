@@ -7,6 +7,7 @@ from basketball_scoreboard import BasketballScoreboard
 from football_scoreboard import FootballScoreboard
 from baseball_scoreboard import BaseballScoreboard
 from boxing_scoreboard import BoxingScoreboard
+from cricket_scoreboard import CricketScoreboard
 from colors import Colors
 from fonts import Fonts
 
@@ -88,7 +89,7 @@ class ScoreboardPicker :
             pygame.display.set_caption("SCOREBOARD")
 
             
-            self.scoreboards = [ ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", HockeyScoreboard(self.window)),
+            self.scoreboards = [ ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),

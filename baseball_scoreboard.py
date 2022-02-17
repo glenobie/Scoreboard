@@ -1,5 +1,4 @@
 
-from telnetlib import GA
 from baseball_game_state import BaseballGameState
 from scoreboard import Scoreboard
 from numericSurface import NumericSurface
