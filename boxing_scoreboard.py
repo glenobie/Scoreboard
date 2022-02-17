@@ -42,11 +42,11 @@ class BoxingScoreboard(TimedScoreboard):
         TimedScoreboard.processKeyPress(self, event)
         if event.key == pygame.K_a:
             self.state.modifyEndurance(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
-       # elif event.key == pygame.K_q:
-       #     self.state.modifyTimeoutsTaken(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_q:
+            self.state.resetRound()
         elif event.key == pygame.K_d:
             self.state.modifyEndurance(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
-       # elif event.key == pygame.K_e:
-       #     self.state.modifyTimeoutsTaken(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+        elif event.key == pygame.K_e:
+            self.state.resetRound()
 
 

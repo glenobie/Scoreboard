@@ -15,6 +15,9 @@ class TeamState :
         if (self.score < self.maxScore) :
             self.score += 1 
 
+    def resetScore(self) :
+        self.score = 0
+
 ######################
 class BoxerState(TeamState) :
     def __init__(self, score, maxScore=39) :

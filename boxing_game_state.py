@@ -28,3 +28,9 @@ class BoxingGameState(TimedGameState) :
             self.teams[team].modifyEndurance(1)
         else:
             self.teams[team].modifyEndurance(-1)
+
+    def resetRound(self):
+        for team in self.teams :
+            team.resetScore()
+        self.seconds = self.MAX_SECONDS
+        
