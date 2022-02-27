@@ -22,7 +22,8 @@ class CricketScoreboard(Scoreboard):
         self.batterSurface = NumericSurface(self.fontScore, Colors.SCORE, 999)
         self.wicketsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 9)
         self.batterNumberSurface = NumericSurface(self.fontVerySmallNumber, Colors.SCORE, 19, False, 8, 8)
-        self.lastValueSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 999 )
+        self.lastWicketSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 999 )
+        self.lastInningsSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 999 )
         self.createStaticBlits(self.staticBlitList)
 
     
@@ -53,8 +54,8 @@ class CricketScoreboard(Scoreboard):
         blitList.append(self.layout.getLeftSideCenteredBlit ( self.insetSurface(self.totalSurface.getValueAsSurface(self.state.getLeftBatterRuns())), CricketLayout.BATTER_RUNS_HEIGHT ))
         blitList.append(self.layout.getRightSideCenteredBlit ( self.insetSurface(self.totalSurface.getValueAsSurface(self.state.getRightBatterRuns())), CricketLayout.BATTER_RUNS_HEIGHT ))
 
-        blitList.append(self.layout.getLeftSideCenteredBlit ( self.insetSurface(self.lastValueSurface.getValueAsSurface(self.state.getLastWicket())), CricketLayout.LAST_VALUE_HEIGHT ))
-        blitList.append(self.layout.getRightSideCenteredBlit ( self.insetSurface(self.lastValueSurface.getValueAsSurface(self.state.getLastInnings())), CricketLayout.LAST_VALUE_HEIGHT ))
+        blitList.append(self.layout.getLeftSideCenteredBlit ( self.insetSurface(self.lastWicketSurface.getValueAsSurface(self.state.getLastWicket())), CricketLayout.LAST_VALUE_HEIGHT ))
+        blitList.append(self.layout.getRightSideCenteredBlit ( self.insetSurface(self.lastInningsSurface.getValueAsSurface(self.state.getLastInnings())), CricketLayout.LAST_VALUE_HEIGHT ))
 
     def processKeyPress(self, event) :
         Scoreboard.processKeyPress(self, event)
