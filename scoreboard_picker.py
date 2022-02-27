@@ -89,12 +89,13 @@ class ScoreboardPicker :
             pygame.display.set_caption("SCOREBOARD")
 
             
-            self.scoreboards = [ ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
+            self.scoreboards = [ 
                                  ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window))
+                                 ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window))
                                ]
 
             self.scoreboardIndex = 0
