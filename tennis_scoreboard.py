@@ -18,6 +18,7 @@ class TennisScoreboard(Scoreboard):
         self.layout = TennisLayout(window)
         self.pointSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99)
         self.createStaticBlits(self.staticBlitList)    
+        
 
     def createStaticBlits(self, blitList) :
         x=0
@@ -43,31 +44,21 @@ class TennisScoreboard(Scoreboard):
     def processKeyPress(self, event) :
         Scoreboard.processKeyPress(self, event)
         if event.key == pygame.K_q:
-            if ( event.mod & pygame.KMOD_LSHIFT) :
-                self.state.recordScore()
-            else :
-                self.state.swapBatters()
+            # cycle selected set
+            x=0
         elif event.key == pygame.K_a:
-            if ( event.mod & pygame.KMOD_LSHIFT) :
-                self.state.changeLeftBatter()
-            else :
-                self.state.incrementLeftBatterNumber()
+            x=0
         elif event.key == pygame.K_e:
-            if ( event.mod & pygame.KMOD_LSHIFT) :
-                self.state.changeSides()
-            else : 
-                self.state.swapBatters()
+             # cycle selected set
+            x=0
         elif event.key == pygame.K_d:
-            if ( event.mod & pygame.KMOD_LSHIFT) :
-                self.state.changeRightBatter()
-            else :
-                self.state.incrementRightBatterNumber()
+            x=0
         elif event.key == pygame.K_s:
-            self.state.incrementWickets()
+            x=0
         elif event.key == pygame.K_z:
-            self.state.modifyLeftBatterRuns( event.mod & pygame.KMOD_LSHIFT)
+            self.state.modifyPoints(0,  event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_c:
-            self.state.modifyRightBatterRuns( event.mod & pygame.KMOD_LSHIFT)
-
+            self.state.modifyPoints(1,  event.mod & pygame.KMOD_LSHIFT)
+ 
 
 

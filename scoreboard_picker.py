@@ -78,7 +78,7 @@ class ScoreboardPicker :
     FOOTBALL_DINGBAT = "y"
     CRICKET_DINGBAT = "M"
     BOXING_DINGBAT = "L"
-    TENNIS_DINGBAT = "v"
+    TENNIS_DINGBAT = "v" # or "t" or "o"
 
     def __init__(self):
             pygame.init()
@@ -146,7 +146,7 @@ class ScoreboardPicker :
             self.running = True
             while self.running:
                 self.processInput()
-                #self.update()a
+                #self.update()
                 self.render()
 
 picker = ScoreboardPicker()
