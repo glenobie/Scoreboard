@@ -8,6 +8,7 @@ from football_scoreboard import FootballScoreboard
 from baseball_scoreboard import BaseballScoreboard
 from boxing_scoreboard import BoxingScoreboard
 from cricket_scoreboard import CricketScoreboard
+from tennis_scoreboard import TennisScoreboard
 from colors import Colors
 from fonts import Fonts
 
@@ -77,6 +78,7 @@ class ScoreboardPicker :
     FOOTBALL_DINGBAT = "y"
     CRICKET_DINGBAT = "M"
     BOXING_DINGBAT = "L"
+    TENNIS_DINGBAT = "v"
 
     def __init__(self):
             pygame.init()
@@ -95,7 +97,8 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window))
+                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.TENNIS_DINGBAT, "Tennis", TennisScoreboard(self.window))
                                ]
 
             self.scoreboardIndex = 0
@@ -132,7 +135,7 @@ class ScoreboardPicker :
         
         for option in self.scoreboards :
            
-            option.draw(self.window, ( 150 + (count % 3) * 240 , 70 + 200 * (count // 3)))
+            option.draw(self.window, ( 150 + (count % 3) * 240 , 20 + 154 * (count // 3)))
             count += 1            
 
             # x += option.get_width() + 60
