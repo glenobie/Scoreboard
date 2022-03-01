@@ -9,6 +9,7 @@ from baseball_scoreboard import BaseballScoreboard
 from boxing_scoreboard import BoxingScoreboard
 from cricket_scoreboard import CricketScoreboard
 from tennis_scoreboard import TennisScoreboard
+from bowling_scoreboard import BowlingScoreboard
 from colors import Colors
 from fonts import Fonts
 
@@ -79,6 +80,7 @@ class ScoreboardPicker :
     CRICKET_DINGBAT = "M"
     BOXING_DINGBAT = "L"
     TENNIS_DINGBAT = "v" # or "t" or "o"
+    BOWLING_DINGBAT = "A"
 
     def __init__(self):
             pygame.init()
@@ -98,7 +100,8 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.TENNIS_DINGBAT, "Tennis", TennisScoreboard(self.window))
+                                 ScoreboardOption( ScoreboardPicker.TENNIS_DINGBAT, "Tennis", TennisScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window))
                                ]
 
             self.scoreboardIndex = 0

@@ -6,9 +6,13 @@ class TennisPlayer() :
     POINTS = [" 0", "15", "30", "40", "AD"] #99 for AD
     NUM_POINTS = 5
 
-    def __init__(self) :
+    def __init__(self, serving) :
         self.pointsIndex = 0
         self.sets = [0,0,0,0,0]
+        self.serving = serving
+
+    def changeServing(self) :
+        self.serving = not(self.serving)
     
 
 class TennisGameState(GameState) :
@@ -19,11 +23,11 @@ class TennisGameState(GameState) :
         #invoking the __init__ of the parent class 
         GameState.__init__(self) 
  
-        self.players = [TennisPlayer(), TennisPlayer()]
+        self.players = [TennisPlayer(True), TennisPlayer(False)]
 
-    def modifyTime(self) :
-        # change the serving player
-        adj = 1
+    def modifyTime(self, t=False) :
+        for p in self.players :
+            p.changeServing()
         
     def getPlayerSets(self, playerIndex ):
         return self.players[playerIndex].sets
