@@ -39,8 +39,6 @@ class ScoreboardOption :
         self.scoreboard.run()
 
     def draw(self, window, position) : # position is center of object
-        
-
         iconX =  position[0] - (self.iconWidth / 2)
         titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
