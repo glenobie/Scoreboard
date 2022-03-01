@@ -9,7 +9,8 @@ import pygame
 
 class TennisScoreboard(Scoreboard):
 
-    
+    NUM_SETS = 5
+
     def __init__(self, window):
         Scoreboard.__init__(self, window)
 
@@ -17,6 +18,9 @@ class TennisScoreboard(Scoreboard):
         self.gameSurface = NumericSurface(self.fontScore, Colors.SCORE, 9)
         self.layout = TennisLayout(window)
         self.pointSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99)
+
+        self.selectedSet = 0
+
         self.createStaticBlits(self.staticBlitList)    
 
 
@@ -31,28 +35,34 @@ class TennisScoreboard(Scoreboard):
         v = self.insetSurface(self.pointSurface.getValueAsSurface(self.state.getPoints(1)))
         blitList.append( ( self.getCombinedSurface(t, v, 20), (TennisLayout.COLS[1], TennisLayout.ROWS[1]) ) )
 
+        self.addSetSurfaces(blitList, 0)
+        self.addSetSurfaces(blitList, 1)
+ 
+    def addSetSurfaces(self, blitList, playerIndex) :
         index = 0
-        for x in self.state.getPlayerSets(0) :
-            blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(6)), (TennisLayout.COLS[index+2], TennisLayout.ROWS[0]) ) )
+        for x in self.state.getPlayerSets(playerIndex) :
+            if (index == self.selectedSet) :
+                self.gameSurface.setColor(Colors.PERIOD)
+            else :
+                self.gameSurface.setColor(Colors.SCORE)
+            blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(self.state.getPlayerSets(playerIndex)[index])), (TennisLayout.COLS[index+2], TennisLayout.ROWS[playerIndex]) ) )
             index += 1
 
-        index = 0  
-        for x in self.state.getPlayerSets(1) :
-            blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(6)), (TennisLayout.COLS[index+2], TennisLayout.ROWS[1]) ) )
-            index += 1
  
+    def cycleSelectedSet(self, adj) :
+        self.selectedSet = (self.selectedSet + adj) % TennisScoreboard.NUM_SETS
+
+
     def processKeyPress(self, event) :
         Scoreboard.processKeyPress(self, event)
         if event.key == pygame.K_q:
-            # cycle selected set
-            x=0
+            self.cycleSelectedSet(-1)
         elif event.key == pygame.K_a:
-            x=0
+            self.state.modifyGames(0, self.selectedSet, event.mod & pygame.KMOD_LSHIFT ) 
         elif event.key == pygame.K_e:
-             # cycle selected set
-            x=0
+            self.cycleSelectedSet(1)
         elif event.key == pygame.K_d:
-            x=0
+             self.state.modifyGames(1, self.selectedSet, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_s:
             x=0
         elif event.key == pygame.K_z:

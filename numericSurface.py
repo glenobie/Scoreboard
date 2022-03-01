@@ -82,5 +82,8 @@ class NumericSurface () :
 
         
 
+    def setColor(self, color) :
+        self.color = color
+
 
    
