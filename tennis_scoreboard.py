@@ -17,9 +17,7 @@ class TennisScoreboard(Scoreboard):
         self.gameSurface = NumericSurface(self.fontScore, Colors.SCORE, 9)
         self.layout = TennisLayout(window)
         self.pointSurface = NumericSurface(self.fontScore, Colors.PERIOD, 99)
-        self.createStaticBlits(self.staticBlitList)
-
-    
+        self.createStaticBlits(self.staticBlitList)    
 
     def createStaticBlits(self, blitList) :
         x=0
@@ -33,16 +31,14 @@ class TennisScoreboard(Scoreboard):
         blitList.append( ( self.getCombinedSurface(t, v, 20), (TennisLayout.COLS[1], TennisLayout.ROWS[1]) ) )
 
         index = 0
-        for x in self.state.getPlayer1Sets() :
+        for x in self.state.getPlayerSets(0) :
             blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(6)), (TennisLayout.COLS[index+2], TennisLayout.ROWS[0]) ) )
             index += 1
 
         index = 0  
-        for x in self.state.getPlayer2Sets() :
+        for x in self.state.getPlayerSets(1) :
             blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(6)), (TennisLayout.COLS[index+2], TennisLayout.ROWS[1]) ) )
             index += 1
-
-        
  
     def processKeyPress(self, event) :
         Scoreboard.processKeyPress(self, event)

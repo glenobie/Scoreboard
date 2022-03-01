@@ -3,26 +3,38 @@ from scoreState import GameState
 
 class TennisPlayer() :
 
+    POINTS = [0, 15, 30, 40, 99] #99 for AD
+    NUM_POINTS = 5
+
     def __init__(self) :
-        self.points = 0
+        self.pointsIndex = 0
         self.sets = [0,0,0,0,0]
     
 
 class TennisGameState(GameState) :
     
+    MAX_GAMES = 7
+
     def __init__(self):
         #invoking the __init__ of the parent class 
         GameState.__init__(self) 
  
-        self.player1 = TennisPlayer()
-        self.player2 =  TennisPlayer()
+        self.players = [TennisPlayer(), TennisPlayer()]
 
     def modifyTime(self) :
-        # add/subtract overs from team in field
+        # change the serving player
         adj = 1
         
-    def getPlayer1Sets(self) :
-        return self.player1.sets
+    def getPlayerSets(self, playerIndex ):
+        return self.players[playerIndex].sets
 
-    def getPlayer2Sets(self) :
-        return self.player2.sets
+
+    def modifyGames(self, playerIndex, setIndex, doDecrement) :
+        adj = 1
+        if doDecrement : adj = -1
+        self.players[playerIndex].sets[setIndex] = (self.players[playerIndex].sets[setIndex] + adj) % (TennisGameState.MAX_GAMES + 1)
+                
+    def modifyPoints(self, playerIndex, doDecrement) :
+        adj = 1
+        if doDecrement : adj = -1
+        self.players[playerIndex].pointsIndex = (self.players[playerIndex].pointsIndex + adj) % TennisPlayer.NUM_POINTS
