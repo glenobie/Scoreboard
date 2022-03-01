@@ -3,7 +3,7 @@ from scoreState import GameState
 
 class TennisPlayer() :
 
-    POINTS = [0, 15, 30, 40, 99] #99 for AD
+    POINTS = [" 0", "15", "30", "40", "AD"] #99 for AD
     NUM_POINTS = 5
 
     def __init__(self) :
@@ -38,3 +38,6 @@ class TennisGameState(GameState) :
         adj = 1
         if doDecrement : adj = -1
         self.players[playerIndex].pointsIndex = (self.players[playerIndex].pointsIndex + adj) % TennisPlayer.NUM_POINTS
+
+    def getPoints(self, playerIndex) :
+        return TennisPlayer.POINTS[self.players[playerIndex].pointsIndex]
