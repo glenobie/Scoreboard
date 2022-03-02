@@ -38,7 +38,7 @@ class ScoreboardOption :
     def processSelection(self) :
         self.scoreboard.run()
 
-    def draw(self, window, position) : # position is center of object
+    def draw(self, window, position) : # position is center of object5
         iconX =  position[0] - (self.iconWidth / 2)
         titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
@@ -72,12 +72,13 @@ class ScoreboardOption :
 class ScoreboardPicker :
 
     HOCKEY_DINGBAT = "l"
+
     BASKETBALL_DINGBAT = "P"
     BASEBALL_DINGBAT = "e"
     FOOTBALL_DINGBAT = "y"
     CRICKET_DINGBAT = "M"
     BOXING_DINGBAT = "L"
-    TENNIS_DINGBAT = "v" # or "t" or "o"
+    TENNIS_DINGBAT = "v" # or "t" or "o" or "7" or "v"
     BOWLING_DINGBAT = "A"
 
     def __init__(self):

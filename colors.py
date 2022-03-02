@@ -10,5 +10,5 @@ class Colors() :
     TEXT  = (255,255,255) # white
     BLUE = (0,80,255)
     PERIOD = (0, 255, 0) # green)
-    DEFAULT_COLOR = (255,255,255)
-    HIGHLIGHT_COLOR = (255,0,0)
+    DEFAULT_COLOR = (70,70,70)
+    HIGHLIGHT_COLOR = (255,255,255)
