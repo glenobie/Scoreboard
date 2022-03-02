@@ -2,19 +2,25 @@
 from scoreState import GameState
 
 class Frame() :
-    EMPTY = 0
     SPARE = 10
     STRIKE = 11
     PINS = [ "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "X"]
+    VALUES = [0,1,2,3,4,5,6,7,8,9,10,10]
     BALL_1_SCORES = 10
     NUM_SCORES = 12
     
 
     def __init__(self, value) :
-        self.balls = [Frame.EMPTY, Frame.EMPTY, Frame.EMPTY] # index into PINS
+        self.balls = [0,0,0] # index into PINS
         self.value = value # frame number 1 to 10
         self.empty = True
      
+    def numPins(value) :
+        if value > 10 :
+            return 10
+        else :
+            return value
+
     def isSpare(self) :
         return self.balls[1] == Frame.SPARE
 
@@ -35,14 +41,19 @@ class Frame() :
 
     def modifyPins(self, ballIndex, value) :
         self.empty = False
-        if (ballIndex == 0) :
+        if (ballIndex == 0 and not(self.isTenth())) :
             self.balls[ballIndex] = ( self.balls[ballIndex] + value) % Frame.BALL_1_SCORES
         else :
             self.balls[ballIndex] = ( self.balls[ballIndex] + value ) % Frame.NUM_SCORES
  
     def getBalls(self) :
         ballsList = []
-        if self.isStrike() :
+        if self.isTenth() :
+            ballsList.append(Frame.VALUES[self.balls[0]])
+            ballsList.append(Frame.VALUES[self.balls[1]])
+            ballsList.append(Frame.VALUES[self.balls[2]])
+
+        elif self.isStrike() :
             ballsList.append(10)
         elif not(self.isEmpty()):
             ballsList.append( self.balls[0] )
@@ -51,6 +62,8 @@ class Frame() :
             else :
                 ballsList.append( self.balls[1] )
         return ballsList
+
+#############################################################################
              
 class Bowler() :
 
@@ -75,13 +88,12 @@ class Bowler() :
         score = 0 
         if (frameNum < BowlingGameState.MAX_FRAMES)  :
             next2Balls = self.frames[frameIndex+1].getBalls()
-            f2Balls = self.frames[frameIndex+2].getBalls()
-            for b in f2Balls :
-                next2Balls.append(b)
-            
+            if (frameNum < 9) :
+                f2Balls = self.frames[frameIndex+2].getBalls()
+                for b in f2Balls :
+                    next2Balls.append(b)            
             if len(next2Balls) > 1 :
                 score = 10 + next2Balls[0] + next2Balls[1]
-
         return score        
 
     def computeSpareFrame(self, frameIndex) :
@@ -91,9 +103,15 @@ class Bowler() :
             nextBalls = self.frames[frameIndex+1].getBalls()
             if len(nextBalls) > 0 :
                 score += 10 + nextBalls[0]
-        else :
-            #10th frame
-            x=0
+        
+        return score
+
+    def computeTenthFrame(self) :
+        nextBalls = self.frames[9].getBalls()
+        score = 0
+        for b in nextBalls :
+            score += b
+
         return score
 
     def computeFrameScores(self) :
@@ -101,7 +119,9 @@ class Bowler() :
         score = 0
         index = 0
         for f in self.frames :
-            if f.isStrike() :
+            if f.isTenth() :
+                score += self.computeTenthFrame()
+            elif f.isStrike() :
                 score += self.computeStrikeFrame(index)
             elif f.isSpare() :
                 score += self.computeSpareFrame(index)
@@ -121,8 +141,10 @@ class Bowler() :
         for i in range(BowlingGameState.MAX_FRAMES) :
             if self.frames[i].isEmpty() :
                 return i+1
-            
-        return BowlingGameState.MAX_FRAMES
+        
+        return BowlingGameState.MAX_FRAMES+1
+
+################################################################
 
        
 class BowlingGameState(GameState) :
