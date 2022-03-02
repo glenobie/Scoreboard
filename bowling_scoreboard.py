@@ -81,7 +81,10 @@ class BowlingScoreboard(Scoreboard):
         if event.key == pygame.K_q:
             self.cycleSelectedFrame(-1)
         elif event.key == pygame.K_e:
-            self.cycleSelectedFrame(1)
+            if event.mod & pygame.KMOD_LSHIFT :
+                self.state.modifyPins(1, 9, 2, False)
+            else :
+                self.cycleSelectedFrame(1)
         elif event.key == pygame.K_a:
             self.state.modifyPins(0, self.selectedFrame, 0, event.mod & pygame.KMOD_LSHIFT ) 
         elif event.key == pygame.K_d:

@@ -71,7 +71,18 @@ class Bowler() :
           self.computeFrameScores()
 
     def computeStrikeFrame(self, frameIndex) :
-        return 10
+        frameNum = frameIndex + 1       
+        score = 0 
+        if (frameNum < BowlingGameState.MAX_FRAMES)  :
+            next2Balls = self.frames[frameIndex+1].getBalls()
+            f2Balls = self.frames[frameIndex+2].getBalls()
+            for b in f2Balls :
+                next2Balls.append(b)
+            
+            if len(next2Balls) > 1 :
+                score = 10 + next2Balls[0] + next2Balls[1]
+
+        return score        
 
     def computeSpareFrame(self, frameIndex) :
         frameNum = frameIndex + 1
@@ -80,6 +91,9 @@ class Bowler() :
             nextBalls = self.frames[frameIndex+1].getBalls()
             if len(nextBalls) > 0 :
                 score += 10 + nextBalls[0]
+        else :
+            #10th frame
+            x=0
         return score
 
     def computeFrameScores(self) :
@@ -104,11 +118,11 @@ class Bowler() :
             return self.scores[frameNumber-1]
 
     def getFirstEmptyFrameNumber(self) :
-        num = 1
-        for f in self.frames :
-            if f.isEmpty() :
-                return num
-            num += 1
+        for i in range(BowlingGameState.MAX_FRAMES) :
+            if self.frames[i].isEmpty() :
+                return i+1
+            
+        return BowlingGameState.MAX_FRAMES
 
        
 class BowlingGameState(GameState) :
