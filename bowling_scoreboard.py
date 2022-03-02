@@ -39,7 +39,8 @@ class BowlingScoreboard(Scoreboard):
         s.fill(Colors.BACKGROUND)
         index = 0
         x=y=0
-        for frame in self.state.getPlayerFrames(playerIndex) :
+        bowler = self.state.bowlers[playerIndex]
+        for frame in bowler.frames :
             if (index == self.selectedFrame) :
                 self.scoreSurface.setColor(Colors.PERIOD)
                 self.pinsSurface.setColor(Colors.PERIOD)
@@ -57,7 +58,7 @@ class BowlingScoreboard(Scoreboard):
             else :
                 s.blit( twoBalls, (x, y) ) 
 
-            s.blit( self.insetSurface(self.scoreSurface.getValueAsSurface(frame.getScore())), (x, y + 42 ) )
+            s.blit( self.insetSurface(self.scoreSurface.getValueAsSurface(bowler.getScore(index+1))), (x, y + 42 ) )
 
             x += BowlingLayout.FRAME_SPACING
             index += 1

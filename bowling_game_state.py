@@ -3,19 +3,18 @@ from scoreState import GameState
 
 class Frame() :
     EMPTY = 0
-    SPARE = 11
-    STRIKE = 12
-    PINS = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "X"]
-    BALL_1_SCORES = 11
-    NUM_SCORES = 13
+    SPARE = 10
+    STRIKE = 11
+    PINS = [ "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "X"]
+    BALL_1_SCORES = 10
+    NUM_SCORES = 12
     
 
     def __init__(self, value) :
         self.balls = [Frame.EMPTY, Frame.EMPTY, Frame.EMPTY] # index into PINS
-        self.score = 0
         self.value = value # frame number 1 to 10
-        self.isEmpty = True
-    
+        self.empty = True
+     
     def isSpare(self) :
         return self.balls[1] == Frame.SPARE
 
@@ -23,22 +22,35 @@ class Frame() :
         return self.balls[1] == Frame.STRIKE
     
     def isEmpty( self ) :
-        return self.balls[0] == Frame.EMPTY or self.balls[1] == Frame.EMPTY
+        return self.empty
 
     def getDisplay(self, index) :
-        return Frame.PINS[self.balls[index]]
+        if self.isEmpty() : 
+            return " "
+        else :
+            return Frame.PINS[self.balls[index]]
 
     def isTenth(self) :
         return self.value == 10
 
     def modifyPins(self, ballIndex, value) :
+        self.empty = False
         if (ballIndex == 0) :
-            self.balls[ballIndex] = ( self.balls[ballIndex] + 1 ) % Frame.BALL_1_SCORES
+            self.balls[ballIndex] = ( self.balls[ballIndex] + value) % Frame.BALL_1_SCORES
         else :
-            self.balls[ballIndex] = ( self.balls[ballIndex] + 1 ) % Frame.NUM_SCORES
-        self.computeScore()
-
-
+            self.balls[ballIndex] = ( self.balls[ballIndex] + value ) % Frame.NUM_SCORES
+ 
+    def getBalls(self) :
+        ballsList = []
+        if self.isStrike() :
+            ballsList.append(10)
+        elif not(self.isEmpty()):
+            ballsList.append( self.balls[0] )
+            if self.isSpare() :
+                ballsList.append(10-self.balls[0])
+            else :
+                ballsList.append( self.balls[1] )
+        return ballsList
              
 class Bowler() :
 
@@ -47,18 +59,58 @@ class Bowler() :
         for i in range(BowlingGameState.MAX_FRAMES) :
             self.frames.append( Frame(i+1) )
         self.bowling = bowling
- 
+        self.scores = [0,0,0,0,0,0,0,0,0,0]
+
     def changeBowler(self) :
         self.bowling = not(self.bowling)
 
     def modifyPins(self, frameIndex, ballIndex, value) :
-        self.frames[frameIndex].modifyPins(ballIndex, value)
+        # can only change empty frame if its first empty frame
+        if frameIndex < self.getFirstEmptyFrameNumber() :
+          self.frames[frameIndex].modifyPins(ballIndex, value)
+          self.computeFrameScores()
 
-    def computeScoresByFrame(self) :
-        self.score = 234
+    def computeStrikeFrame(self, frameIndex) :
+        return 10
 
+    def computeSpareFrame(self, frameIndex) :
+        frameNum = frameIndex + 1
+        score = 0
+        if (frameNum < BowlingGameState.MAX_FRAMES)  :
+            nextBalls = self.frames[frameIndex+1].getBalls()
+            if len(nextBalls) > 0 :
+                score += 10 + nextBalls[0]
+        return score
 
-    
+    def computeFrameScores(self) :
+        self.scores = []
+        score = 0
+        index = 0
+        for f in self.frames :
+            if f.isStrike() :
+                score += self.computeStrikeFrame(index)
+            elif f.isSpare() :
+                score += self.computeSpareFrame(index)
+            else :
+                for b in f.getBalls() :
+                    score += b
+            self.scores.append (score)
+            index += 1
+
+    def getScore(self, frameNumber) :
+        if frameNumber >= self.getFirstEmptyFrameNumber()  :
+            return "-"
+        else :
+            return self.scores[frameNumber-1]
+
+    def getFirstEmptyFrameNumber(self) :
+        num = 1
+        for f in self.frames :
+            if f.isEmpty() :
+                return num
+            num += 1
+
+       
 class BowlingGameState(GameState) :
 
     MAX_FRAMES = 10
@@ -75,7 +127,6 @@ class BowlingGameState(GameState) :
         
     def getPlayerFrames(self, playerIndex ):
         return self.bowlers[playerIndex].frames
-
                
     def modifyPins(self, playerIndex, frameIndex, ballIndex, doDecrement) :
         adj = 1
