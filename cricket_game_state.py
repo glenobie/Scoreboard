@@ -39,10 +39,6 @@ class CricketGameState(GameState) :
         self.lockedTotal = 0
         self.changeSides()
   
-    def changeLeftBatter(self) :
-        self.lockedTotal += self.leftBatter.getRuns()
-        self.leftBatter.resetRuns()
-
     def getOvers(self) :
         return self.overs
     
@@ -51,7 +47,9 @@ class CricketGameState(GameState) :
 
     def changeSides(self) :
         self.lastInnings = self.total
+
         self.total = 0
+        self.lockedTotal = 0
         self.wickets = 0
         self.lastWicket = 0
         self.overs = 0

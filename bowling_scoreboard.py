@@ -14,7 +14,7 @@ class BowlingScoreboard(Scoreboard):
 
     def __init__(self, window):
         Scoreboard.__init__(self, window)
-        self.fontBall = pygame.freetype.Font(Fonts.DINGBAT_FILE, 20)
+        #self.fontBall = pygame.freetype.Font(Fonts.DINGBAT_FILE, 20)
         self.layout = BowlingLayout(window)
 
         self.state = BowlingGameState()
@@ -23,7 +23,7 @@ class BowlingScoreboard(Scoreboard):
         self.pinsSurface = NumericSurface(self.fontPins, Colors.SCORE, 9)
         self.scoreSurface = NumericSurface(self.fontScore, Colors.PERIOD, 999, False, 2)
 
-        self.bowlerUpSurface = NumericSurface(self.fontBall, Colors.CLOCK, 9)
+        #self.bowlerUpSurface = NumericSurface(self.fontBall, Colors.CLOCK, 9)
 
         self.selectedFrame = 0
 

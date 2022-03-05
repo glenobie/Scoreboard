@@ -61,7 +61,8 @@ class NumericSurface () :
             else :
                 donePrintingLeadingZeroes = True
                 if (digit == "-") : yPos += surface.get_height() / 3
-                surface.blit(self.font.render(digit, self.color)[0], (xPos, yPos)  )
+                if digit != " " :
+                   surface.blit(self.font.render(digit, self.color)[0], (xPos, yPos)  )
             i += 1
  
     def getValueAsSurface(self, value) :
