@@ -1,5 +1,5 @@
 
-from tennis_game_state import TennisGameState
+from tennis_game_state import TennisGameState, TennisPlayer
 from scoreboard import Scoreboard
 from numericSurface import NumericSurface
 from colors import Colors
@@ -28,7 +28,10 @@ class TennisScoreboard(Scoreboard):
 
 
     def createStaticBlits(self, blitList) :
-        x=0
+        s = self.fontSmallText.render("GAME", Colors.TEXT)[0]
+        blitList.append( (s, (260, TennisLayout.ROWS[0] - 50)))
+        s = self.fontSmallText.render("SETS", Colors.TEXT)[0]
+        blitList.append( (s, (530, TennisLayout.ROWS[0] - 120)))
 
     def addPointsSurface(self, blitList, name, playerIndex, serving) :
         if serving : 
@@ -42,6 +45,7 @@ class TennisScoreboard(Scoreboard):
     
     def addSetSurfaces(self, blitList, playerIndex) :
         index = 0
+        
         for x in self.state.getPlayerSets(playerIndex) :
             if (index == self.selectedSet) :
                 self.gameSurface.setColor(Colors.PERIOD)
@@ -49,6 +53,12 @@ class TennisScoreboard(Scoreboard):
                 self.gameSurface.setColor(Colors.SCORE)
             blitList.append( ( self.insetSurface(self.gameSurface.getValueAsSurface(self.state.getPlayerSets(playerIndex)[index])), (TennisLayout.COLS[index+1], TennisLayout.ROWS[playerIndex]) ) )
             index += 1
+
+        for i in range(TennisGameState.NUM_SETS) :
+            c = Colors.TEXT
+            if i == self.selectedSet : c = Colors.PERIOD
+            s = self.fontSmallText.render(str(i+1), c)[0]
+            blitList.append( (s, (TennisLayout.COLS[i+1] + TennisLayout.SET_SPACING/4, TennisLayout.ROWS[0] - 50)))
 
        
 

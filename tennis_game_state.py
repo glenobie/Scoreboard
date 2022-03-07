@@ -18,6 +18,7 @@ class TennisPlayer() :
 class TennisGameState(GameState) :
     
     MAX_GAMES = 7
+    NUM_SETS = 5
 
     def __init__(self):
         #invoking the __init__ of the parent class 

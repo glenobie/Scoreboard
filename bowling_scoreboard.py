@@ -5,7 +5,6 @@ from numericSurface import NumericSurface
 from colors import Colors
 from fonts import Fonts
 from bowling_layout import BowlingLayout
-from scoreState import GameState
 import pygame
 
 class BowlingScoreboard(Scoreboard):
@@ -31,13 +30,13 @@ class BowlingScoreboard(Scoreboard):
 
 
     def createStaticBlits(self, blitList) :
-        x=0
+        x = 0
 
-    
     def getFramesSurface(self, playerIndex) :
-        s = pygame.Surface((740,80))
+        s = pygame.Surface((740,90))
         s.fill(Colors.BACKGROUND)
         index = 0
+        offset = 2
         x=y=0
         bowler = self.state.bowlers[playerIndex]
         for frame in bowler.frames :
@@ -54,17 +53,34 @@ class BowlingScoreboard(Scoreboard):
             if (frame.isTenth()) :
                 ball3 = self.insetSurface(self.pinsSurface.getValueAsSurface(frame.getDisplay(2)))
                 threeBalls = self.getCombinedSurface(twoBalls, ball3, 2) 
-                s.blit(threeBalls, (x,y))
+                s.blit(threeBalls, (x+offset,y+offset))
             else :
-                s.blit( twoBalls, (x, y) ) 
-
-            s.blit( self.insetSurface(self.scoreSurface.getValueAsSurface(bowler.getScore(index+1))), (x, y + 42 ) )
-
-            x += BowlingLayout.FRAME_SPACING
+                s.blit( twoBalls, (x+offset, y+offset) ) 
+            
+            s.blit( self.insetSurface(self.scoreSurface.getValueAsSurface(bowler.getScore(index+1))), (x+offset, y + 42+offset) )
+            if (index < 9) :
+                pygame.draw.rect(s, Colors.TEXT, (x, y, BowlingLayout.FRAME_WIDTH, BowlingLayout.FRAME_HEIGHT), 1)
+            else :
+                pygame.draw.rect(s, Colors.TEXT, (x, y, BowlingLayout.FRAME_WIDTH + BowlingLayout.FRAME_WIDTH / 2, BowlingLayout.FRAME_HEIGHT), 1)
+            x += BowlingLayout.FRAME_SPACING + offset
             index += 1
         return s
 
     def createDynamicBlits(self, blitList) :
+
+        x = 90
+        y1 = BowlingLayout.ROW1 - 50
+        y2 = BowlingLayout.ROW2 - 50
+        f=1
+        for i in range(BowlingGameState.MAX_FRAMES) :
+            c = Colors.TEXT
+            if i == self.selectedFrame : c = Colors.PERIOD
+            s = self.fontSmallText.render(str(f), c)[0] 
+            blitList.append( ( s, (x,y1) ) )
+            blitList.append( ( s, (x,y2) ) )
+            x += BowlingLayout.FRAME_SPACING + 2
+            f += 1
+
         f = self.getFramesSurface(0)
         n = self.fontText.render("B1", Colors.TEXT)[0]
         blitList.append( ( self.getCombinedSurface(n, f,  10), (BowlingLayout.LEFT_MARGIN, BowlingLayout.ROW1) ) )
