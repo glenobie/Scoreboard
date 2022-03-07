@@ -66,8 +66,8 @@ class Scoreboard():
         shadowOffset =  NumericSurface.OUTLINE_WIDTH + Scoreboard.SHADOW_WIDTH // 2
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (w - shadowOffset, shadowOffset), Scoreboard.SHADOW_WIDTH) 
         pygame.draw.line(surface, Colors.SHADOW, (shadowOffset, shadowOffset), (shadowOffset, h-shadowOffset), Scoreboard.SHADOW_WIDTH) 
-        pygame.draw.line(surface, (30,30,30), (4,h-4), (w-4, h-4), 3) 
-        pygame.draw.line(surface, (30,30,30), (w-4, 4), (w-4, h-4), 3) 
+        pygame.draw.line(surface, Colors.INSET_HIGHLIGHT, (4,h-4), (w-4, h-4), 2) 
+        pygame.draw.line(surface, Colors.INSET_HIGHLIGHT, (w-4, 4), (w-4, h-4), 3) 
         
         return surface
 

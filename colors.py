@@ -12,3 +12,5 @@ class Colors() :
     PERIOD = (0, 255, 0) # green)
     DEFAULT_COLOR = (70,70,70)
     HIGHLIGHT_COLOR = (255,255,255)
+    FRAME = (70,70,70)
+    INSET_HIGHLIGHT = (50,50,50)

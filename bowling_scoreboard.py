@@ -59,9 +59,9 @@ class BowlingScoreboard(Scoreboard):
             
             s.blit( self.insetSurface(self.scoreSurface.getValueAsSurface(bowler.getScore(index+1))), (x+offset, y + 42+offset) )
             if (index < 9) :
-                pygame.draw.rect(s, Colors.TEXT, (x, y, BowlingLayout.FRAME_WIDTH, BowlingLayout.FRAME_HEIGHT), 1)
+                pygame.draw.rect(s, Colors.FRAME, (x, y, BowlingLayout.FRAME_WIDTH, BowlingLayout.FRAME_HEIGHT), 1)
             else :
-                pygame.draw.rect(s, Colors.TEXT, (x, y, BowlingLayout.FRAME_WIDTH + BowlingLayout.FRAME_WIDTH / 2, BowlingLayout.FRAME_HEIGHT), 1)
+                pygame.draw.rect(s, Colors.FRAME, (x, y, BowlingLayout.FRAME_WIDTH + BowlingLayout.FRAME_WIDTH / 2, BowlingLayout.FRAME_HEIGHT), 1)
             x += BowlingLayout.FRAME_SPACING + offset
             index += 1
         return s
