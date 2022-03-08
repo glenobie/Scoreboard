@@ -42,13 +42,6 @@ class ScoreboardOption :
         iconX =  position[0] - (self.iconWidth / 2)
         titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
-        titleY = position[1] + ScoreboardOption.SPACING + self.icon.get_size()[1] 
-
-        # compare widths in order to set x position
-        #if self.icon.get_size()[0] > self.title.get_size()[0]  : 
-        ##    titleX = iconX + (self.icon.get_size()[0] - self.title.get_size()[0]) / 2 
-        #else :
-        #    iconX = titleX + (self.title.get_size()[0] - self.icon.get_size()[0]) / 2 
 
         window.blit(self.icon, (iconX, iconY) )
         window.blit(self.title, (titleX, titleY) )
