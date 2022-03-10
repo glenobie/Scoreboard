@@ -29,10 +29,10 @@ class ScoreboardOption :
         self.dingbat = dingbat
         self.text = text
         self.icon = self.fontImages.render(dingbat, Colors.DEFAULT_COLOR)[0]
-        self.iconWidth = self.icon.get_size()[0]
+        self.iconWidth = self.icon.get_width()
         
         self.title = self.fontText.render(text, Colors.DEFAULT_COLOR)[0]
-        self.titleWidth = self.title.get_size()[0]
+        self.titleWidth = self.title.get_width()
         self.scoreboard = scoreboard
         
     def processSelection(self) :
@@ -42,7 +42,7 @@ class ScoreboardOption :
         iconX =  position[0] - (self.iconWidth / 2)
         titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
-
+        titleY = iconY + self.icon.get_height() + ScoreboardOption.SPACING
         window.blit(self.icon, (iconX, iconY) )
         window.blit(self.title, (titleX, titleY) )
 
@@ -56,10 +56,10 @@ class ScoreboardOption :
 
     
     def get_width(self) :
-        if self.icon.get_size()[0] > self.title.get_size()[0] :
-            return self.icon.get_size()[0] 
+        if self.icon.get_width() > self.title.get_width() :
+            return self.icon.get_width()
         else : 
-            return self.title.get_size()[0]
+            return self.title.get_width()
 
 
 class ScoreboardPicker :
@@ -96,7 +96,7 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window))
                                ]
 
-            self.scoreboardIndex = 0
+            self.scoreboardIndex = 0x
             self.scoreboards[self.scoreboardIndex].isSelected(True)
             
             
