@@ -20,8 +20,6 @@ class FootballScoreboard(TimedScoreboard):
         self.ytgSurface = NumericSurface(self.fontSmallNumber, Colors.PERIOD, 99, False, 6)
         self.scrimmageSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 99, False, 6)
         self.ltgSurface = NumericSurface(self.fontVerySmallNumber, Colors.PERIOD, 99, False, 4)
-
-
         self.layout = FootballLayout(window)
         self.createStaticBlits(self.staticBlitList)
 
@@ -57,9 +55,13 @@ class FootballScoreboard(TimedScoreboard):
         if (self.state.teamPossessingBall == GameState.HOME_INDEX) :
             blitList.append(self.layout.getLeftSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
             blitList.append(self.layout.getLeftSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage())), FootballLayout.BALL_VALUE_HEIGHT  ))
+            blitList.append(self.layout.getRightSideCenteredBlit(self.fontText.render("BALL ON", Colors.OUTLINE)[0], FootballLayout.BALL_TEXT_HEIGHT))
+            blitList.append(self.layout.getRightSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(" ")), FootballLayout.BALL_VALUE_HEIGHT  ))
         else :
             blitList.append(self.layout.getRightSideCenteredBlit(self.fontText.render("BALL ON", Colors.TEXT)[0], FootballLayout.BALL_TEXT_HEIGHT))
             blitList.append(self.layout.getRightSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(self.state.getLineOfScrimmage())), FootballLayout.BALL_VALUE_HEIGHT  ))
+            blitList.append(self.layout.getLeftSideCenteredBlit(self.fontText.render("BALL ON", Colors.OUTLINE)[0], FootballLayout.BALL_TEXT_HEIGHT))
+            blitList.append(self.layout.getLeftSideCenteredBlit(self.insetSurface(self.scrimmageSurface.getValueAsSurface(" ")), FootballLayout.BALL_VALUE_HEIGHT  ))
 
 
     def processKeyPress(self, event) :

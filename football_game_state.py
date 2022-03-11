@@ -6,6 +6,7 @@ class FootballGameState(TimedGameState) :
     DOWN_STRINGS = ("1ST", "2ND", "3RD", "4TH")
     NUM_DOWNS = 4
     GOAL_TO_GO = -1000
+    FIELD_SIZE = 100
     
     def __init__(self):
         #invoking the __init__ of the parent class 
@@ -43,13 +44,13 @@ class FootballGameState(TimedGameState) :
 
     def changePossessingTeam(self) :
         self.teamPossessingBall = (self.teamPossessingBall + 1) % 2
-        self.lineOfScrimmage = 100 - self.lineOfScrimmage
+        self.lineOfScrimmage = FootballGameState.FIELD_SIZE - self.lineOfScrimmage
 
     # between 0 and 50
     def getLineOfScrimmage(self) :
         halfFieldYard = self.lineOfScrimmage
-        if (halfFieldYard > 50) :
-            halfFieldYard = 100 - halfFieldYard
+        if (halfFieldYard > FootballGameState.FIELD_SIZE / 2) :
+            halfFieldYard = FootballGameState.FIELD_SIZE - halfFieldYard
         return halfFieldYard
 
 
@@ -59,31 +60,31 @@ class FootballGameState(TimedGameState) :
             self.yardsToGain += value
             if self.lineOfScrimmage < 0 :
                 self.lineOfScrimmage = 0
-            if self.yardsToGain > 99 :
-                self.yardsToGain = 99
+            if self.yardsToGain > FootballGameState.FIELD_SIZE - 1 :
+                self.yardsToGain = FootballGameState.FIELD_SIZE -1
             elif self.yardsToGain < 0 :
                 self.yardsToGain = FootballGameState.GOAL_TO_GO
         else :
             self.lineOfScrimmage += value
             self.yardsToGain -= value
-            if self.lineOfScrimmage > 99 :
-                self.lineOfScrimmage = 99
+            if self.lineOfScrimmage > FootballGameState.FIELD_SIZE - 1 :
+                self.lineOfScrimmage = FootballGameState.FIELD_SIZE - 1
             if self.yardsToGain < 0 :
                 self.yardsToGain = FootballGameState.GOAL_TO_GO
 
     def resetDownAndDistance(self) :
         self.yardsToGain = 10
-        if 100 - self.lineOfScrimmage < 10 : 
+        if FootballGameState.FIELD_SIZE - self.lineOfScrimmage < 10 : 
             self.yardsToGain = FootballGameState.GOAL_TO_GO
         self.down = 1
 
     def getYardsToEndzone(self) :
-        return 100 - self.lineOfScrimmage
+        return FootballGameState.FIELD_SIZE - self.lineOfScrimmage
 
     def getLineToGain(self) :
         line = self.lineOfScrimmage + self.yardsToGain
-        if line > 50 :
-            line = 100 - line
+        if line > FootballGameState.FIELD_SIZE / 2 :
+            line = FootballGameState.FIELD_SIZE - line
         if line < 0 :
             line = 0
         return line

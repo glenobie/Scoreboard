@@ -29,6 +29,8 @@ class CricketGameState(GameState) :
     
     MAX_WICKETS = 10
     MAX_BATTERS = 11
+    BALLS_PER_OVER = 6
+    BALLS_PER_ACTION = 2
 
     def __init__(self):
         #invoking the __init__ of the parent class 
@@ -36,14 +38,22 @@ class CricketGameState(GameState) :
         self.maxScore = 999
         self.lastInnings = 0
         self.total = 0
+        self.extras = 0
+        self.balls = 0
         self.lockedTotal = 0
         self.changeSides()
   
     def getOvers(self) :
         return self.overs
+
+    def getBalls(self) :
+        return self.balls
     
     def getWickets(self) :
         return self.wickets
+
+    def getExtras(self) :
+        return self.extras
 
     def changeSides(self) :
         self.lastInnings = self.total
@@ -53,6 +63,7 @@ class CricketGameState(GameState) :
         self.wickets = 0
         self.lastWicket = 0
         self.overs = 0
+        self.extras = 0
         self.leftBatter = CricketBatter(1)
         self.rightBatter =  CricketBatter(2)
 
@@ -62,10 +73,19 @@ class CricketGameState(GameState) :
 
     def modifyTime(self, doDecrement=False) :
         # add/subtract overs from team in field
-        adj = 1
-        if (doDecrement) : adj = -1
-        self.overs += adj
-        if self.overs < 0 : self.overs = 0
+        adj = CricketGameState.BALLS_PER_ACTION
+        if (doDecrement) : adj = - CricketGameState.BALLS_PER_ACTION
+        self.balls += adj
+        if self.balls < 0 : 
+            self.balls = CricketGameState.BALLS_PER_OVER - CricketGameState.BALLS_PER_ACTION
+            self.overs -= 1
+            if (self.overs < 0) : 
+                self.overs = 0
+                self.balls = 0
+        elif self.balls >= CricketGameState.BALLS_PER_OVER :
+            self.balls = 0
+            self.overs += 1
+            
 
     def incrementWickets(self) :
         self.wickets = (self.wickets + 1) % CricketGameState.MAX_WICKETS
@@ -89,13 +109,22 @@ class CricketGameState(GameState) :
         adj = 1
         if doDecrement : adj = -1
         self.leftBatter.modifyRuns(adj)
-        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns()
+        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns() + self.extras
 
     def modifyRightBatterRuns(self, doDecrement=False) :
         adj = 1
         if doDecrement : adj = -1
         self.rightBatter.modifyRuns(adj)
-        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns()
+        self.total = self.lockedTotal + self.leftBatter.getRuns() + self.rightBatter.getRuns() + self.extras
+
+    def modifyExtras(self, doDecrement = False) :
+        adj = 1
+        if doDecrement : adj = -1
+        self.extras += adj
+        if self.extras < 0 :
+            self.extras = 0
+        else :
+            self.total += adj
 
     def incrementLeftBatterNumber(self) :
         self.leftBatter.setNumber((self.leftBatter.getNumber()  % CricketGameState.MAX_BATTERS) + 1)

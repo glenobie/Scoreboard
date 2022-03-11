@@ -96,7 +96,7 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window))
                                ]
 
-            self.scoreboardIndex = 0x
+            self.scoreboardIndex = 0
             self.scoreboards[self.scoreboardIndex].isSelected(True)
             
             
