@@ -40,6 +40,7 @@ class Scoreboard():
         blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.scoreText.getValueAsSurface(self.state.getHomeScore())), Layout.SCORE_HEIGHT)) 
         blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.scoreText.getValueAsSurface(self.state.getGuestScore())), Layout.SCORE_HEIGHT)) 
 
+    # Horizontally combined surfaces
     def getCombinedSurface(self, firstSurface, secondSurface, spacing) :
         width = firstSurface.get_size()[0] + secondSurface.get_size()[0] + spacing
         if  firstSurface.get_size()[1] > secondSurface.get_size()[1] :
@@ -56,8 +57,12 @@ class Scoreboard():
             combinedSurface.fill(Colors.BACKGROUND)
             combinedSurface.blit(firstSurface, (0,offset))
             combinedSurface.blit(secondSurface, (width - secondSurface.get_size()[0], 0))
-
         return combinedSurface
+    
+    # Vertically centered
+    def centeredAbovePosition(self, above, below) :
+        x = (below.get_width() - above.get_width()) / 2
+
 
     def insetSurface(self, surface) :
         w = surface.get_size()[0]

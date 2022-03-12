@@ -10,6 +10,7 @@ from boxing_scoreboard import BoxingScoreboard
 from cricket_scoreboard import CricketScoreboard
 from tennis_scoreboard import TennisScoreboard
 from bowling_scoreboard import BowlingScoreboard
+from golf_scoreboard import GolfScoreboard
 from colors import Colors
 from fonts import Fonts
 
@@ -54,7 +55,6 @@ class ScoreboardOption :
             self.icon = self.fontImages.render(self.dingbat, Colors.DEFAULT_COLOR)[0]
             self.title = self.fontText.render(self.text, Colors.DEFAULT_COLOR)[0]
 
-    
     def get_width(self) :
         if self.icon.get_width() > self.title.get_width() :
             return self.icon.get_width()
@@ -65,7 +65,6 @@ class ScoreboardOption :
 class ScoreboardPicker :
 
     HOCKEY_DINGBAT = "l"
-
     BASKETBALL_DINGBAT = "P"
     BASEBALL_DINGBAT = "e"
     FOOTBALL_DINGBAT = "y"
@@ -73,6 +72,7 @@ class ScoreboardPicker :
     BOXING_DINGBAT = "L"
     TENNIS_DINGBAT = "v" # or "t" or "o" or "7" or "v"
     BOWLING_DINGBAT = "A"
+    GOLF_DINGBAT = "B"
 
     def __init__(self):
             pygame.init()
@@ -93,7 +93,8 @@ class ScoreboardPicker :
                                  ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
                                  ScoreboardOption( ScoreboardPicker.TENNIS_DINGBAT, "Tennis", TennisScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window))
+                                 ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window)),
+                                 ScoreboardOption( ScoreboardPicker.GOLF_DINGBAT, "Golf", GolfScoreboard(self.window))
                                ]
 
             self.scoreboardIndex = 0
