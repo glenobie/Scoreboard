@@ -171,6 +171,10 @@ class GolfScoreboard(Scoreboard):
             self.modifyRightGolferScore(-1)
         elif event.key == pygame.K_x:
             self.state.incrementHoles()
+        elif event.key == pygame.K_s: 
+            if event.mod & pygame.KMOD_LSHIFT :                 
+                self.running = False
+ 
 
 
 
