@@ -5,6 +5,7 @@ class Fonts:
     NUMERIC_FILE = PATH + "tech2.ttf"
     TEXT_FILE    = PATH + "title-sb.ttf"
     DINGBAT_FILE = PATH + "sports.otf"
+    DINGBAT2_FILE = PATH + "England.ttf"
     TEXT_FILE    = PATH + "title-sb.ttf"
     GAME_CLOCK_SIZE    = 120
     TEXT_SIZE    = 64

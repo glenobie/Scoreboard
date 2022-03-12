@@ -20,16 +20,13 @@ class ScoreboardOption :
 
     SPACING = 10 # between icon and title
 
-    def __init__(self, dingbat, text, scoreboard) :
+    def __init__(self, dingbatFont, dingbatChar, textFont, text, scoreboard) :
 
-        #home = str(Path.home())
-        
-        self.fontImages = pygame.freetype.Font(Fonts.DINGBAT_FILE, Fonts.DINGBAT_SIZE)
-        self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALLEST_TEXT_SIZE)
-
-        self.dingbat = dingbat
+        self.dingbat = dingbatChar
+        self.dingbatFont = dingbatFont
+        self.fontText = textFont
         self.text = text
-        self.icon = self.fontImages.render(dingbat, Colors.DEFAULT_COLOR)[0]
+        self.icon = self.dingbatFont.render(self.dingbat, Colors.DEFAULT_COLOR)[0]
         self.iconWidth = self.icon.get_width()
         
         self.title = self.fontText.render(text, Colors.DEFAULT_COLOR)[0]
@@ -49,10 +46,10 @@ class ScoreboardOption :
 
     def isSelected(self, selected) :
         if selected :
-            self.icon = self.fontImages.render(self.dingbat, Colors.HIGHLIGHT_COLOR)[0]
+            self.icon = self.dingbatFont.render(self.dingbat, Colors.HIGHLIGHT_COLOR)[0]
             self.title = self.fontText.render(self.text, Colors.HIGHLIGHT_COLOR)[0]
         else :
-            self.icon = self.fontImages.render(self.dingbat, Colors.DEFAULT_COLOR)[0]
+            self.icon = self.dingbatFont.render(self.dingbat, Colors.DEFAULT_COLOR)[0]
             self.title = self.fontText.render(self.text, Colors.DEFAULT_COLOR)[0]
 
     def get_width(self) :
@@ -68,7 +65,7 @@ class ScoreboardPicker :
     BASKETBALL_DINGBAT = "P"
     BASEBALL_DINGBAT = "e"
     FOOTBALL_DINGBAT = "y"
-    CRICKET_DINGBAT = "M"
+    CRICKET_DINGBAT = "2"
     BOXING_DINGBAT = "L"
     TENNIS_DINGBAT = "v" # or "t" or "o" or "7" or "v"
     BOWLING_DINGBAT = "A"
@@ -83,18 +80,21 @@ class ScoreboardPicker :
             self.window = pygame.display.set_mode((800,480), self.flags)
             
             pygame.display.set_caption("SCOREBOARD")
+            self.fontImage1 = pygame.freetype.Font(Fonts.DINGBAT_FILE, Fonts.DINGBAT_SIZE)
+            self.fontImage2 = pygame.freetype.Font(Fonts.DINGBAT2_FILE, Fonts.DINGBAT_SIZE)
+            self.fontText = pygame.freetype.Font(Fonts.TEXT_FILE, Fonts.SMALLEST_TEXT_SIZE)
 
             
             self.scoreboards = [ 
-                                 ScoreboardOption( ScoreboardPicker.BASEBALL_DINGBAT, "Baseball", BaseballScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.FOOTBALL_DINGBAT, "Football", FootballScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BASKETBALL_DINGBAT, "Basketball", BasketballScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.HOCKEY_DINGBAT, "Hockey", HockeyScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.CRICKET_DINGBAT, "Cricket", CricketScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BOXING_DINGBAT, "Boxing", BoxingScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.TENNIS_DINGBAT, "Tennis", TennisScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.BOWLING_DINGBAT, "Bowling", BowlingScoreboard(self.window)),
-                                 ScoreboardOption( ScoreboardPicker.GOLF_DINGBAT, "Golf", GolfScoreboard(self.window))
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.BASEBALL_DINGBAT, self.fontText,  "Baseball", BaseballScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.FOOTBALL_DINGBAT, self.fontText, "Football", FootballScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.BASKETBALL_DINGBAT, self.fontText, "Basketball", BasketballScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.HOCKEY_DINGBAT, self.fontText, "Hockey", HockeyScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage2, ScoreboardPicker.CRICKET_DINGBAT, self.fontText, "Cricket", CricketScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.BOXING_DINGBAT, self.fontText,"Boxing", BoxingScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.TENNIS_DINGBAT, self.fontText, "Tennis", TennisScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.BOWLING_DINGBAT, self.fontText, "Bowling", BowlingScoreboard(self.window)),
+                                 ScoreboardOption( self.fontImage1, ScoreboardPicker.GOLF_DINGBAT, self.fontText, "Golf", GolfScoreboard(self.window))
                                ]
 
             self.scoreboardIndex = 0

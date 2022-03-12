@@ -9,9 +9,9 @@ from scoreState import GameState
 from football_layout import FootballLayout
 
 class FootballScoreboard(TimedScoreboard):
-    def __init__(self, window):
+    def __init__(self, window, state=FootballGameState(4,100)):
         TimedScoreboard.__init__(self, window)
-        self.state = FootballGameState()
+        self.state = state
 
         self.scoreText = NumericSurface(self.fontScore, Colors.SCORE, 99 )
         self.timeoutsSurface = NumericSurface(self.fontSmallNumber, Colors.SCORE, 5)
