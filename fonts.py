@@ -7,6 +7,8 @@ class Fonts:
     DINGBAT_FILE = PATH + "sports.otf"
     DINGBAT2_FILE = PATH + "England.ttf"
     TEXT_FILE    = PATH + "title-sb.ttf"
+    USA_FILE     = PATH + "usa.ttf"
+    CANADA_FILE = PATH + "Canada.ttf"
     GAME_CLOCK_SIZE    = 120
     TEXT_SIZE    = 64
     SCORE_SIZE   = 100
