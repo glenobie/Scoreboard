@@ -19,7 +19,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 class ScoreboardOption :
 
-    SPACING = 10 # between icon and title
+    SPACING = 10 # vertically between icon and title
 
     def __init__(self, dingbatFont, dingbatChar, textFont, text, scoreboard) :
 
@@ -37,7 +37,7 @@ class ScoreboardOption :
     def processSelection(self) :
         self.scoreboard.run()
 
-    def draw(self, window, position) : # position is center of object5
+    def draw(self, window, position) : # position is center of object
         iconX =  position[0] - (self.iconWidth / 2)
         titleX = position[0] - (self.titleWidth / 2)
         iconY = position[1]
@@ -60,7 +60,7 @@ class ScoreboardOption :
             return self.title.get_width()
 
 #################################################
-
+# Pick Canadian or American Football
 class FootballPicker() :
     USA_DINGBAT = "d"
     CANADA_DINGBAT = "K"
