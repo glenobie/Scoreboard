@@ -14,20 +14,27 @@ class BoxingGameState(TimedGameState) :
         self.MAX_SECONDS = self.MINUTES_PER_PERIOD * 60
         self.seconds = self.MAX_SECONDS
         self.timeDivisionName = "Round"
-        self.maxPeriods = 15
-
- 
+        self.maxPeriods = 15 
 
     def getEndurance(self, team) :
         return self.teams[team].getEndurance()
     
-
+    def getTkoPoints(self, team) :
+        return self.teams[team].getTkoPoints()
+ 
 
     def modifyEndurance(self, team, doIncrement=False) :
         if doIncrement :
             self.teams[team].modifyEndurance(1)
         else:
             self.teams[team].modifyEndurance(-1)
+
+    def modifyTkoPoints(self, team, doDecrement=False) :
+        if doDecrement :
+            self.teams[team].modifyTkoPoints(-1)
+        else:
+            self.teams[team].modifyTkoPoints(1)
+
 
     def resetRound(self):
         for team in self.teams :

@@ -2,11 +2,11 @@ from layout import LayoutWithClock, Layout
 
 class BoxingLayout(LayoutWithClock) :  
 
-    TEAM_FOULS_TITLE_HEIGHT = 190
-    TIMEOUTS_TITLE_HEIGHT = 340
+    ENDURANCE_TITLE_HEIGHT = 190
+    TKO_TITLE_HEIGHT = 340
 
-    TEAM_FOULS_VALUE_HEIGHT  = 240
-    TIMEOUTS_VALUE_HEIGHT  = 390
+    ENDURANCE_VALUE_HEIGHT  = 240
+    TKO_VALUE_HEIGHT  = 390
 
 
     def __init__(self, window) :

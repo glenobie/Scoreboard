@@ -28,8 +28,10 @@ class BoxingScoreboard(TimedScoreboard):
 
     def createStaticBlits(self, blitList) :
         TimedScoreboard.createStaticBlits(self, blitList)
-        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("ENDURANCE", Colors.TEXT)[0] , BoxingLayout.TEAM_FOULS_TITLE_HEIGHT) )
-        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("ENDURANCE", Colors.TEXT)[0] , BoxingLayout.TEAM_FOULS_TITLE_HEIGHT) )
+        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("ENDURANCE", Colors.TEXT)[0] , BoxingLayout.ENDURANCE_TITLE_HEIGHT) )
+        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("ENDURANCE", Colors.TEXT)[0] , BoxingLayout.ENDURANCE_TITLE_HEIGHT) )
+        blitList.append( self.layout.getLeftSideCenteredBlit( self.fontSmallText.render("TKO POINTS", Colors.TEXT)[0] , BoxingLayout.TKO_TITLE_HEIGHT) )
+        blitList.append( self.layout.getRightSideCenteredBlit( self.fontSmallText.render("TKO POINTS", Colors.TEXT)[0] , BoxingLayout.TKO_TITLE_HEIGHT) )
 
        
     def createDynamicBlits(self, blitList) :
@@ -38,8 +40,10 @@ class BoxingScoreboard(TimedScoreboard):
 
         blitList.append( self.layout.getMinutesBlit(self.insetSurface(self.minutesText.getValueAsSurface(self.state.getSeconds() // 60)))) 
         blitList.append( self.layout.getSecondsBlit(self.insetSurface(self.secondsText.getValueAsSurface(self.state.getSeconds() % 60)))) 
-        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.enduranceRed.getValueAsSurface(self.state.getEndurance(GameState.HOME_INDEX) )), BoxingLayout.TEAM_FOULS_VALUE_HEIGHT ) )
-        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.enduranceBlue.getValueAsSurface(self.state.getEndurance(GameState.GUEST_INDEX) )), BoxingLayout.TEAM_FOULS_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.enduranceRed.getValueAsSurface(self.state.getEndurance(GameState.HOME_INDEX) )), BoxingLayout.ENDURANCE_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.enduranceBlue.getValueAsSurface(self.state.getEndurance(GameState.GUEST_INDEX) )), BoxingLayout.ENDURANCE_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getLeftSideCenteredBlit(self.insetSurface(self.enduranceRed.getValueAsSurface(self.state.getTkoPoints(GameState.HOME_INDEX) )), BoxingLayout.TKO_VALUE_HEIGHT ) )
+        blitList.append( self.layout.getRightSideCenteredBlit(self.insetSurface(self.enduranceBlue.getValueAsSurface(self.state.getTkoPoints(GameState.GUEST_INDEX) )), BoxingLayout.TKO_VALUE_HEIGHT ) )
 
         t = self.fontText.render(self.state.getTimeDivisionName() + ":", Colors.TEXT)[0]
         x = self.insetSurface(self.period.getValueAsSurface(self.state.getPeriod()  ))
@@ -51,10 +55,11 @@ class BoxingScoreboard(TimedScoreboard):
         if event.key == pygame.K_a:
             self.state.modifyEndurance(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_q:
-            self.state.resetRound()
+            self.state.modifyTkoPoints(GameState.HOME_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_d:
             self.state.modifyEndurance(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
         elif event.key == pygame.K_e:
-            self.state.resetRound()
+            self.state.modifyTkoPoints(GameState.GUEST_INDEX, event.mod & pygame.KMOD_LSHIFT)
+            
 
 

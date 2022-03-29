@@ -75,6 +75,6 @@ class TimedGameState(GameState):
         else :
             self.seconds -= self.TIME_INTERVAL
             if self.seconds < 0 :
-                self.seconds = 0
+                self.seconds = self.MAX_SECONDS
 
 

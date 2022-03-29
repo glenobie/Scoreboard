@@ -23,10 +23,19 @@ class BoxerState(TeamState) :
     def __init__(self, score, maxScore=39) :
         TeamState.__init__(self, score, maxScore)
         self.endurance = 20
+        self.tkoPoints = 0
 
     def getEndurance(self) :
         return self.endurance
     
+    def getTkoPoints(self) :
+        return self.tkoPoints
+
+    def modifyTkoPoints(self, value) :
+        self.tkoPoints += value
+        if self.tkoPoints < 0 :
+            self.tkoPoints = 0
+
     def modifyEndurance(self, value) :
         self.endurance += value
 
